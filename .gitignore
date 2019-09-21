@@ -1,0 +1,6 @@
+#忽略enron数据文件压缩包
+*.tar.gz
+#忽略enron邮件数据解压包
+pro1/enron_mail_20150507
+#暂时忽略pro1的设计文档
+#enron公司电子邮件检索系统.md
