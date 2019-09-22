@@ -43,5 +43,6 @@
 
 - 参考资料：
 	- [MIME笔记.阮一峰的网络日志.](http://www.ruanyifeng.com/blog/2008/06/mime.html)	
-
+	- [nltk官方文档](https://www.nltk.org/#natural-language-toolkit)
+	- [python文档-了解相关python基础](https://docs.python.org/2/library/collections.html#counter-objects)
 
