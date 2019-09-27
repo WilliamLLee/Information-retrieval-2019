@@ -8,3 +8,5 @@ enron公司电子邮件检索系统.md
 .idea
 #文本处理中间文件夹
 enron_mail_dir
+
+*.txt

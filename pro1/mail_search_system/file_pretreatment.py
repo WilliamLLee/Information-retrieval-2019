@@ -73,7 +73,14 @@ def lemmatize_all(sentence):
 #通过使用counter函数，将单词列表进行词项统计工作，返回一个字典
 #此函数另一个返回值为该输入字符串分词后的单词总数
 def split_lemmatize(sentence):
-    words =[i for i in lemmatize_all(sentence.lower()) ]       # 基于nltk分词，将结果以列表形式存储
+    # 全部转换为小写字符
+    sentence_proc = sentence.lower()
+    #去除特殊字符
+    special_items = ['*','-','_','=','\\','/','#','$','%','^','&','(',')','~','<','>','.',',','@','\'']
+    for item in special_items:
+        sentence_proc = sentence_proc.replace(item,' ')
+    # nltk分词以及词形还原
+    words =[i for i in lemmatize_all(sentence_proc) ]       # 基于nltk分词，将结果以列表形式存储
     count = Counter(words)       # 使用counter进行计数，counter继承了Python的字典数据结构能够很好的解决索引问题
     return len(words),count      #返回句子分词和词形还原之后统计的词条总数以及词项频数
 
@@ -175,9 +182,8 @@ def split_words(mail_list_file,target_path,limit_number):
 # ['\n']
 # # ['Phillip\n']
 
-#为文件进行编号处理
-#list_files(mail_path,number_file)
-
-split_words(number_file,word_info_file,100)
-
+# 为文件进行编号处理
+# list_files(mail_path,number_file)
+# 分词，并将分词结果输出到文件中进行存储
+# split_words(number_file,word_info_file,100)
 
