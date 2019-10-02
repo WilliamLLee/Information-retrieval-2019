@@ -1,5 +1,6 @@
 from file_pretreatment import *
 import math
+import time
 
 # 直接从文件列表中读入文件路径
 # 打开文件，读取不同域的文本进行分词建立一个倒排索引表
@@ -8,6 +9,8 @@ import math
 
 # 给不同域的词项后缀进行标号
 order = {'D':1,'F':2,'T':3,'S':4,'C':5}
+
+files = './files_content.txt'           # 保存最新的两个文件，querry始终读取这两个文件路径
 
 def index_build(mail_list_file,target_path):
     f_read = open(mail_list_file,'r',encoding='utf-8')  #打开文件映射表
@@ -53,8 +56,8 @@ def index_build(mail_list_file,target_path):
                 if item in word_dict.keys():
                     length, count = split_lemmatize(word_dict[item])
                     # print(count,word_dict[item])
-                    words_count_of_file[file[0]] = [length,0]         # 记录文件的单词数量,后一个位置用来保存该文件向量空间的长度平方值
-
+                    words_count_of_file[file[0]] = [0 for i in range(len(order.keys())+1)]         # 记录文件的单词数量以及该文件不同域的向量空间的长度平方值
+                    words_count_of_file[file[0]][0] = length        # 记录单词数数量
                     for temp in count.keys():
                         key = temp+'-'+item[0]
                         if key not in index_dict.keys():
@@ -69,17 +72,42 @@ def index_build(mail_list_file,target_path):
     # print(index_dict)
     length1 = (index_dict.keys().__len__())
     print(length1)
-    print('end!')
+    print('=>index building end successfully!')           # 索引建立完毕提示
+
+
+    #  索引保存代码
+    index_path =  target_path+'/'+time.strftime('%Y-%m-%d',time.localtime(time.time()))+ '_index.txt'
+    file_info_path =  target_path+'/'+time.strftime('%Y-%m-%d',time.localtime(time.time()))+ '_file_info.txt'
+    print ('=>save index to file :'+index_path+'\n=>save information of files to :'+ file_info_path )
+    indexf = open(index_path,'w',encoding='utf-8')     # 打开索引输出文件流
+    infof = open(file_info_path, 'w', encoding='utf-8')     # 打开文件输出流，输出文件中不同域文本的向量空间长度
 
     for item in index_dict.keys():
         df = len(index_dict[item])
+        indexf.write(item)
         for temp in index_dict[item].keys():
             index_dict[item][temp] = math.log(1000 / df) * (1 + math.log(index_dict[item][temp]))
-            print(item[-1])
-            words_count_of_file[temp][1]  = words_count_of_file[temp][1] +math.pow(index_dict[item][temp] ,2)
-        print(index_dict[item])
-    print(words_count_of_file)
-    return  index_dict,words_count_of_file
+            words_count_of_file[temp][order[item[-1]]] = words_count_of_file[temp][order[item[-1]]] +math.pow(index_dict[item][temp] ,2)
+            indexf.write('#'+temp+':'+str(index_dict[item][temp]))
+        indexf.write('\n')
+    for item in words_count_of_file:
+        infof.write(item)
+        for temp in  range(len(words_count_of_file[item])):
+            infof.write(','+str(words_count_of_file[item][temp]))
+        infof.write('\n')
+    infof.close()
+    indexf.close()
+    print('=>index table save successfully！')
+    #print(words_count_of_file)
+    # return  index_dict,words_count_of_file,file_info_path,index_path
+    return file_info_path, index_path
 
 
-index_dict,words_count_of_file = index_build(number_file ,'./test')
+# index_dict,words_count_of_file,info_file,index_file= index_build(number_file ,'./index_files')
+
+
+# info_file,index_file= index_build(number_file ,'./index_files')
+# f = open(files,'w',encoding='utf-8')
+# f.write(info_file+'\n')
+# f.write(index_file+'\n')
+# f.close()
