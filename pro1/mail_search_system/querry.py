@@ -22,6 +22,6 @@ def querry(q_sentence,index_dict,words_count_of_file,type):
     rank_list = sorted(score.items(),key=lambda x:x[1],reverse=True)
     print(rank_list)
 
-test_sentence = 'aod@newsdata.com'
-querry(test_sentence,index_dict,words_count_of_file,'-F')
+test_sentence = '17 Oct'
+querry(test_sentence,index_dict,words_count_of_file,'-D')
 

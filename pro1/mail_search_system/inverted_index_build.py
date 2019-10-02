@@ -6,6 +6,8 @@ import math
 # 索引表中存放的信息包括 词项字典，词项由两分部分组成，即词项以及域后缀，同时在后面通过一个数字计算该词项在多少个文档中出现
 # 之后跟随在词项后的为一个列表，每一项为文件编号和在该文件中该词项出现的次数
 
+# 给不同域的词项后缀进行标号
+order = {'D':1,'F':2,'T':3,'S':4,'C':5}
 
 def index_build(mail_list_file,target_path):
     f_read = open(mail_list_file,'r',encoding='utf-8')  #打开文件映射表
@@ -73,6 +75,7 @@ def index_build(mail_list_file,target_path):
         df = len(index_dict[item])
         for temp in index_dict[item].keys():
             index_dict[item][temp] = math.log(1000 / df) * (1 + math.log(index_dict[item][temp]))
+            print(item[-1])
             words_count_of_file[temp][1]  = words_count_of_file[temp][1] +math.pow(index_dict[item][temp] ,2)
         print(index_dict[item])
     print(words_count_of_file)

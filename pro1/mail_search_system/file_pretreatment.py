@@ -156,32 +156,6 @@ def split_words(mail_list_file,target_path,limit_number):
     f_log.close()
     print('end!')
 
-
-# 343
-# ['Message-ID', ' <17864070.1075855695090.JavaMail.evans@thyme>\n']
-# ['Date', ' Thu, 12 Apr 2001 03', '09', '00 -0700 (PDT)\n']
-# ['From', ' phillip.allen@enron.com\n']
-# ['To', ' jeff.richter@enron.com, tim.belden@enron.com, tim.heizenrader@enron.com\n']
-# ['Subject', ' \n']
-# ['Mime-Version', ' 1.0\n']
-# ['Content-Type', ' text/plain; charset=us-ascii\n']
-# ['Content-Transfer-Encoding', ' 7bit\n']
-# ['X-From', ' Phillip K Allen\n']
-# ['X-To', ' Jeff Richter, Tim Belden, Tim Heizenrader\n']
-# ['X-cc', ' \n']
-# ['X-bcc', ' \n']
-# ['X-Folder', ' \\Phillip_Allen_June2001\\Notes Folders\\All documents\n']
-# ['X-Origin', ' Allen-P\n']
-# ['X-FileName', ' pallen.nsf\n']
-# ['\n']
-# ["Here is a simplistic spreadsheet.  I didn't drop in the new generation yet, \n"]
-# ['but even without the new plants it looks like Q3 is no worse than last year.\n']
-# ['Can you take a look and get back to me with the bullish case?\n']
-# ['\n']
-# ['thanks,\n']
-# ['\n']
-# # ['Phillip\n']
-
 # 为文件进行编号处理
 # list_files(mail_path,number_file)
 # 分词，并将分词结果输出到文件中进行存储
