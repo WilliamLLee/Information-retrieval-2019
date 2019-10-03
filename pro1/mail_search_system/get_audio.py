@@ -5,7 +5,7 @@ input_filepath = "./speechs/"              # 输入文件的path
 in_path = input_filepath + input_filename
 
 def get_audio(filepath):
-    aa = str(input("=>start recording？   （yes/no） :"))
+    aa = 'yes' #str(input("=>start recording？   （yes/no） :"))
     if aa == str("yes") :
         CHUNK = 256
         FORMAT = pyaudio.paInt16
@@ -38,10 +38,11 @@ def get_audio(filepath):
         wf.setframerate(RATE)
         wf.writeframes(b''.join(frames))
         wf.close()
+        return "succeed recording!"
     elif aa == str("no"):
         exit()
     else:
-        print("incorrect input，please choose again!")
+        return ("incorrect input，please choose again!")
 
-get_audio(in_path)
+#get_audio(in_path)
 

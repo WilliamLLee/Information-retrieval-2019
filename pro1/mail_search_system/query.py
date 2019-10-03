@@ -65,11 +65,13 @@ def querry(q_sentence,index_dict,words_count_of_file,type):
         score[file] = score[file]/a_len
 
     rank_list = sorted(score.items(),key=lambda x:x[1],reverse=True)
-    print(rank_list)
+    # print(rank_list)
+    return rank_list
+
 
 test_sentence = 'Please use the second check as the October payment.'
 index_dict,words_count_of_file = get_index(files)
 print ( '=> index import succeeded!')
-querry(test_sentence,index_dict,words_count_of_file,'-C')
+#querry(test_sentence,index_dict,words_count_of_file,'-C')
 
 
