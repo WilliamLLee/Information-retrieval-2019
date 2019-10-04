@@ -1,103 +1,216 @@
-<!--<script src="./src/jquery.js"></script>-->
-
-
-<!--&lt;!&ndash; import Vue before Element &ndash;&gt;-->
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <!-- import CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <title>Flask AJAX Demo</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <body>
+  <div id="app">
+<el-form :inline="true" :model="query" class="demo-form-inline">
 
-<strong>
-    <center>MAIL QUERY SYSTEM</center>
-</strong> <br><br>
-<strong>Choose query type:</strong>
-<select id="typeSelect" name="typeSelect">
-    <option value="-D">Date</option>
-    <option value="-F">From</option>
-    <option value="-T">To</option>
-    <option value="-S">Subject</option>
-    <option value="-C" selected>Content</option>
-</select><br><br>
-<strong>Enter the query information:</strong>
-<input type="text" size="50" id="echoText" name="echoText">
-<button onclick="TextSearch()" type="button" id="submitBtn" name="submitBtn">TextSearch</button>
-<br><br>
-<strong>Search by Voice: </strong>
-<button onclick="Recording()" type="button" id="startRecord" name="recording">Recording</button>
-<button onclick="AudioSearch()" type="button" id="voiceSearch" name="voiceSearch">VoiceSearch</button>
-<br><br>
+<el-form-item label="请选择查询种类：">
+ <el-select v-model="query.type_s" placeholder="请选择" >
+    <el-option label="日期" value="-D"></el-option>
+      <el-option label="发件人" value="-F"></el-option>
+     <el-option label="收件人" value="-T"></el-option>
+      <el-option label="主题" value="-S"></el-option>
+       <el-option label="正文" value="-C"></el-option>
+  </el-select>
+</el-form-item>
+<el-form-item label="请输入检索内容：">
+    <el-input v-model="query.sentence" placeholder="检索内容"  ></el-input>
+  </el-form-item>
 
-<strong>query result as follows:</strong><br><br>
+    <el-form-item>
+    <el-button type="primary" @click="onSubmit">检索</el-button>
+  </el-form-item>
+</el-form>
 
+<el-table
+    :data="tableData.filter(data => !search || data.path.toLowerCase().includes(search.toLowerCase()))"
+    style="width: 100%">
+    <el-table-column
+      type="index"
+      width="50">
+    </el-table-column>
+    <el-table-column
+      label="Path"
+      prop="path"
+      width="500">
+    </el-table-column>
+    <el-table-column
+      label="Score"
+      prop="score"
+      width="200">
+    </el-table-column>
+    <el-table-column
+      align="right">
+      <template slot="header" slot-scope="scope">
+        <el-input
+          v-model="search"
+          size="mini"
+          placeholder="输入Path关键字搜索"/>
+      </template>
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 
+  </div>
 
 </body>
+  <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
-<script>
-        function TextSearch(){
-	    var select = document.getElementById('typeSelect');
-	    var index = select.selectedIndex;
-	    var v = select.options[index].value;
+  <script>
+    new Vue({
+      el: '#app',
+      data: function() {
+        return {
+            visible: false,
+            query:{
+                sentence:'',
+                type_s:'-C'
+                },
+           tableData: [{
+          path: '2016-05-02',
+          score: '王小虎',
+        }, {
+          path: '2016-05-04',
+          score: '王白虎',
+        }, {
+         path: '2016-05-01',
+          score: '王小虎',
+        }, {
+          path: '2016-05-03',
+          score: '王小虎',
+        }],
+        search: ''
+        }
+      },
+      inject :['reload','reset'],
+      methods: {
+      onSubmit() {
+        var temp ;
         $.ajax({
-        data:{
-            'sentence':$('#echoText').val(),
-             'type_s': v,
-        },
+        data:this.query,
         url: "http://127.0.0.1:5000/",
         type: "POST",
+        async: false,
         dataType: "JSON",
         success: function (rep) {
-            $('#tableData').val = rep;
+            temp = rep;
             console.log(rep);
         },error:function(error){
             console.log('error');
             console.log(error);
         }
         })
-        };
-    function Recording(){
-	     $.ajax({
-        url: "http://127.0.0.1:5000/recording",
-        type: "GET",
-        dataType: "text",
-        success: function (rep) {
-            console.log(rep);
-        },error:function(error){
-            console.log('error');
-            console.log(error);
-        }
-        })
-   };
-   function AudioSearch(){
-        var select = document.getElementById('typeSelect');
-	    var index = select.selectedIndex;
-	    var v = select.options[index].value;
-	     $.ajax({
-        data:{
-             'type_s': v
-        },
-        url: "http://127.0.0.1:5000/audio",
-        type: "POST",
-        dataType: "JSON",
-        success: function (rep) {
-            console.log(rep);
-        },error:function(error){
-            console.log('error');
-            console.log(error);
-        }
-        })
-   }
+        this.tableData = temp;
+        console.log(temp);
+        console.log('submit!');
 
-</script>
+      },
+       handleEdit(index, row) {
+        console.log(index, row);
+      },
+      handleDelete(index, row) {
+        console.log(index, row);
+      }
+    }
+    })
+  </script>
 </html>
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--&lt;!&ndash; import CSS &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!--<title>Flask AJAX Demo</title>-->
+    <!--<meta http-equiv="content-type" content="text/html; charset=utf-8">-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<strong>-->
+    <!--<center>MAIL QUERY SYSTEM</center>-->
+<!--</strong> <br><br>-->
+<!--<strong>Choose query type:</strong>-->
+<!--<select id="typeSelect" name="typeSelect">-->
+    <!--<option value="-D">Date</option>-->
+    <!--<option value="-F">From</option>-->
+    <!--<option value="-T">To</option>-->
+    <!--<option value="-S">Subject</option>-->
+    <!--<option value="-C" selected>Content</option>-->
+<!--</select><br><br>-->
+<!--<strong>Enter the query information:</strong>-->
+<!--<input type="text" size="50" id="echoText" name="echoText">-->
+<!--<button onclick="TextSearch()" type="button" id="submitBtn" name="submitBtn">TextSearch</button>-->
+<!--<br><br>-->
+<!--<strong>Search by Voice: </strong>-->
+<!--<button onclick="Recording()" type="button" id="startRecord" name="recording">Recording</button>-->
+<!--<button onclick="AudioSearch()" type="button" id="voiceSearch" name="voiceSearch">VoiceSearch</button>-->
+<!--<br><br>-->
+
+<!--<strong>query result as follows:</strong><br><br>-->
+
+
+
+<!--</body>-->
+
+<!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>-->
+<!--<script>-->
+        <!--function TextSearch(){-->
+	   <!---->
+        <!--};-->
+    <!--function Recording(){-->
+	     <!--$.ajax({-->
+        <!--url: "http://127.0.0.1:5000/recording",-->
+        <!--type: "GET",-->
+        <!--dataType: "text",-->
+        <!--success: function (rep) {-->
+            <!--console.log(rep);-->
+        <!--},error:function(error){-->
+            <!--console.log('error');-->
+            <!--console.log(error);-->
+        <!--}-->
+        <!--})-->
+   <!--};-->
+   <!--function AudioSearch(){-->
+        <!--var select = document.getElementById('typeSelect');-->
+	    <!--var index = select.selectedIndex;-->
+	    <!--var v = select.options[index].value;-->
+	     <!--$.ajax({-->
+        <!--data:{-->
+             <!--'type_s': v-->
+        <!--},-->
+        <!--url: "http://127.0.0.1:5000/audio",-->
+        <!--type: "POST",-->
+        <!--dataType: "JSON",-->
+        <!--success: function (rep) {-->
+            <!--console.log(rep);-->
+        <!--},error:function(error){-->
+            <!--console.log('error');-->
+            <!--console.log(error);-->
+        <!--}-->
+        <!--})-->
+   <!--}-->
+
+<!--</script>-->
+<!--</html>-->
 
