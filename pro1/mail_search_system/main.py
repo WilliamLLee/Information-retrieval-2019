@@ -58,6 +58,16 @@ def audioQuery():
     # print( tran_result(result))
     return  jsonify({'sentence':test_sentence,'result':tran_result(result)})
 
+@app.route('/text',methods=['GET','POST'])
+def readText():
+    path = request.form['path']
+    f = open(path,'r',encoding='utf-8')
+    str = ''
+    for line in f :
+        str = str+line
+    return str
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 

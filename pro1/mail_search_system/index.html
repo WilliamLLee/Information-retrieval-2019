@@ -46,10 +46,10 @@
     <el-table-column
       label="Score"
       prop="score"
-      width="200">
+      width="400">
     </el-table-column>
     <el-table-column
-      align="right">
+      align="left">
       <template slot="header" slot-scope="scope">
         <el-input
           v-model="search"
@@ -59,15 +59,15 @@
       <template slot-scope="scope">
         <el-button
           size="mini"
-          @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-        <el-button
-          size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+          @click="openFile(scope.$index, scope.row)">open</el-button>
       </template>
     </el-table-column>
   </el-table>
 
+      <el-dialog :visible.sync="visible" title="文本预览">
+      <p ：data="text"></p>
+    </el-dialog>
   </div>
 
 </body>
@@ -78,7 +78,7 @@
 
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
 
-<script>
+<script type='text/javascript'>
        new Vue({
       el: '#app',
       data: function() {
@@ -86,7 +86,7 @@
             visible: false,
             percentage: 0,
             query:{
-                sentence:'',
+                sentence:'content',
                 type_s:'-C'
                 },
            tableData: [],
@@ -111,6 +111,10 @@
         }
         })
         this.tableData = temp;
+         this.$message({
+          message: '恭喜你，成功检索到 '+this.tableData.length+' 个结果！',
+          type: 'success'
+        });
         console.log('submit!');
       },
       audioQuery(){
@@ -149,11 +153,28 @@
         });
         console.log('submit!');
       },
-       handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
+       openFile(index, row) {
+       var temp
+        $.ajax({
+        data:{
+                path :this.tableData[index].path
+            },
+        url: "http://127.0.0.1:5000/text",
+        type: "POST",
+        async: false,
+        dataType: "text",
+        success: function (rep) {
+            temp = rep ;
+            console.log(rep);
+        },error:function(error){
+            console.log('error');
+            console.log(error);
+        }
+        })
+
+       this.$alert('<textarea style="width: 100%" rows="40" >'+temp+'</textarea>', 'Content View', {
+           dangerouslyUseHTMLString: true
+         });
       },
       },
     })
