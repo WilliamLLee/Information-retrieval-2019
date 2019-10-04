@@ -25,6 +25,10 @@
     <el-form-item>
     <el-button type="primary" @click="onSubmit">检索</el-button>
   </el-form-item>
+
+    <el-form-item>
+    <el-button type="primary" @click="audioQuery" >语音检索</el-button>
+  </el-form-item>
 </el-form>
 
 <el-table
@@ -73,33 +77,22 @@
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
-  <script>
-    new Vue({
+
+<script>
+       new Vue({
       el: '#app',
       data: function() {
         return {
             visible: false,
+            percentage: 0,
             query:{
                 sentence:'',
                 type_s:'-C'
                 },
-           tableData: [{
-          path: '2016-05-02',
-          score: '王小虎',
-        }, {
-          path: '2016-05-04',
-          score: '王白虎',
-        }, {
-         path: '2016-05-01',
-          score: '王小虎',
-        }, {
-          path: '2016-05-03',
-          score: '王小虎',
-        }],
-        search: ''
+           tableData: [],
+           search: ''
         }
       },
-      inject :['reload','reset'],
       methods: {
       onSubmit() {
         var temp ;
@@ -118,19 +111,53 @@
         }
         })
         this.tableData = temp;
-        console.log(temp);
         console.log('submit!');
+      },
+      audioQuery(){
+       const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)',
+          text:'录音中...20秒后进行检索！'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 20000);
 
+        var temp,sentence;
+        $.ajax({
+        data:this.query,
+        url: "http://127.0.0.1:5000/audio",
+        type: "POST",
+        async: false,
+        dataType: "JSON",
+        success: function (rep) {
+            temp = rep.result;
+            sentence = rep.sentence;
+            console.log(rep);
+        },error:function(error){
+            console.log('error');
+            console.log(error);
+        }
+        })
+        this.tableData = temp;
+        this.query.sentence = sentence;
+        this.$message({
+          message: '恭喜你，成功检索到 '+this.tableData.length+' 个结果！',
+          type: 'success'
+        });
+        console.log('submit!');
       },
        handleEdit(index, row) {
         console.log(index, row);
       },
       handleDelete(index, row) {
         console.log(index, row);
-      }
-    }
+      },
+      },
     })
-  </script>
+</script>
 </html>
 
 
