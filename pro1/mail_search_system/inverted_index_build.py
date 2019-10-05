@@ -75,7 +75,7 @@ def index_build(mail_list_file,target_path):
     print('=>index building end successfully!')           # 索引建立完毕提示
 
 
-    #  索引保存代码
+    #  构建索引并保存索引的相关代码
     index_path =  target_path+'/'+time.strftime('%Y-%m-%d',time.localtime(time.time()))+ '_index.txt'
     file_info_path =  target_path+'/'+time.strftime('%Y-%m-%d',time.localtime(time.time()))+ '_file_info.txt'
     print ('=>save index to file :'+index_path+'\n=>save information of files to :'+ file_info_path )
@@ -93,7 +93,7 @@ def index_build(mail_list_file,target_path):
     for item in words_count_of_file:
         infof.write(item)
         for temp in  range(len(words_count_of_file[item])):
-            infof.write(','+str(words_count_of_file[item][temp]))
+            infof.write(','+str(math.sqrt(words_count_of_file[item][temp])))
         infof.write('\n')
     infof.close()
     indexf.close()
