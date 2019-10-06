@@ -173,6 +173,8 @@ s='Transwestern Pipeline Co. posted new notice(s) since our last check at \
 Please click the following9053 to go to the web site for detail.$ \
 http://ios.ets.enron.com/infoPostings/shared/et_noncritical_notice.asp?company\
 ='
-print(re.findall(r'[0-9]+|[A-za-z]+',s))
+s2 = 'Tue, 12 Dec 2000 23:04:00 -0800 (PST)'
+print(re.findall(r'[0-9]+|[A-za-z]+',s2.lower()))
+print(re.findall(r'[0-9]+|[A-za-z]+|[@]+',s1.lower()))
 print(re.findall(r'[0-9]+|[A-Za-z]+|[-]+[A-Za-z]+|[@$]+',s))
-split_lemmatize(s)
+# split_lemmatize(s)
