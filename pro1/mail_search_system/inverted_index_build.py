@@ -20,6 +20,8 @@ def index_build(mail_list_file,target_path):
         file_list.append(mail)
     f_read.close()
     # 记录词项倒排索引表
+    file_count_num = len(file_list)     # 文件的总数
+    print('=>文件总数为：',file_count_num)
     index_dict = {}
     words_count_of_file ={}
     # 记录所有的文本域
@@ -67,11 +69,11 @@ def index_build(mail_list_file,target_path):
                             index_dict[ key][file[0]]= count[temp]
 
 
-        if int(file[0]) > 1000 :
-            break
+        # if int(file[0]) > 1000 :
+        #     break
     # print(index_dict)
-    length1 = (index_dict.keys().__len__())
-    print(length1)
+    # length1 = (index_dict.keys().__len__())
+    # print(length1)
     print('=>index building end successfully!')           # 索引建立完毕提示
 
 
@@ -86,14 +88,17 @@ def index_build(mail_list_file,target_path):
         df = len(index_dict[item])
         indexf.write(item)
         for temp in index_dict[item].keys():
-            index_dict[item][temp] = math.log(1000 / df) * (1 + math.log(index_dict[item][temp]))
+            index_dict[item][temp] = math.log(file_count_num / df) * (1 + math.log(index_dict[item][temp]))
             words_count_of_file[temp][order[item[-1]]] = words_count_of_file[temp][order[item[-1]]] +math.pow(index_dict[item][temp] ,2)
             indexf.write('#'+temp+':'+str(index_dict[item][temp]))
         indexf.write('\n')
     for item in words_count_of_file:
         infof.write(item)
         for temp in  range(len(words_count_of_file[item])):
-            infof.write(','+str(math.sqrt(words_count_of_file[item][temp])))
+            if temp != 0:
+                infof.write(','+str(math.sqrt(words_count_of_file[item][temp])))
+            else :
+                infof.write(',' + str(words_count_of_file[item][temp]))
         infof.write('\n')
     infof.close()
     indexf.close()
@@ -105,7 +110,7 @@ def index_build(mail_list_file,target_path):
 
 # index_dict,words_count_of_file,info_file,index_file= index_build(number_file ,'./index_files')
 
-
+#
 # info_file,index_file= index_build(number_file ,'./index_files')
 # f = open(files,'w',encoding='utf-8')
 # f.write(info_file+'\n')

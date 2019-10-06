@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, render_template,request
 from flask_cors import  *
-from  query import *
+from query import *
 from get_audio import *
 from speech_recognition import *
 

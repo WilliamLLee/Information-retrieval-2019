@@ -56,7 +56,7 @@ def list_files(path,number_file):
 # 返回值为经过词形还原之后的一个一个的单词或符号
 def lemmatize_all(sentence):
     wnl = WordNetLemmatizer()     # 声明一个词形还原器
-    for word, tag in nltk.pos_tag(nltk.word_tokenize(sentence)):  # 先分词，再给不同的词贴上标签
+    for word, tag in nltk.pos_tag(re.findall(r'[0-9]+|[A-za-z]+|[@$]+',sentence)):  # 先分词，再给不同的词贴上标签
         if tag.startswith('NN'):    # 根据标注的不同词性对单词进行词形还原
             yield wnl.lemmatize(word, pos='n')
         elif tag.startswith('VB'):
@@ -81,6 +81,7 @@ def split_lemmatize(sentence):
         sentence_proc = sentence_proc.replace(item,' ')
     # nltk分词以及词形还原
     words =[i for i in lemmatize_all(sentence_proc) ]       # 基于nltk分词，将结果以列表形式存储
+    print(words)
     count = Counter(words)       # 使用counter进行计数，counter继承了Python的字典数据结构能够很好的解决索引问题
     return len(words),count      #返回句子分词和词形还原之后统计的词条总数以及词项频数
 
@@ -161,3 +162,17 @@ def split_words(mail_list_file,target_path,limit_number):
 # 分词，并将分词结果输出到文件中进行存储
 # split_words(number_file,word_info_file,100)
 
+
+# 分词器需要修改，采用正则表达式的方法改进
+import re
+s1='ywang@enron.com, patti.sullivan9023.3225@enron.com, phillip.k.allen@enron.com,jane.m.tholt@enron.com, mike.grigsby@enron.com'
+s='Transwestern Pipeline Co. posted new notice(s) since our last check at \
+12/12/2000 6:48:01 PM, the newest notice looks like:\
+ Capacity Constraint, Dec 12 2000  9:24PM, Dec 13 2000  9:00AM, Dec 14 2000 three-tree\
+8:59AM, 2236, Allocation - San Juan Lateral\
+Please click the following9053 to go to the web site for detail.$ \
+http://ios.ets.enron.com/infoPostings/shared/et_noncritical_notice.asp?company\
+='
+print(re.findall(r'[0-9]+|[A-za-z]+',s))
+print(re.findall(r'[0-9]+|[A-Za-z]+|[-]+[A-Za-z]+|[@$]+',s))
+split_lemmatize(s)
