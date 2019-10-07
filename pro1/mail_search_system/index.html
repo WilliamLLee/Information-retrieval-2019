@@ -27,7 +27,7 @@
   </el-form-item>
 
     <el-form-item>
-    <el-button type="primary" @click="audioQuery" >语音检索</el-button>
+    <el-button type="primary" @click="getAudio" >语音检索</el-button>
   </el-form-item>
 </el-form>
 
@@ -110,26 +110,34 @@
             console.log(error);
         }
         })
-        this.tableData = temp;
-         this.$message({
-          message: '恭喜你，成功检索到 '+this.tableData.length+' 个结果！',
-          type: 'success'
-        });
+        this.tableData = temp.result;
+        var msg ;
+        if ( temp.number <= 1000)
+            msg = '恭喜你，成功检索到 '+temp.number+' 个结果！';
+        else
+            msg =  '恭喜你，成功检索到 '+temp.number+' 个结果，以下显示前1000个最优结果！';
+        this.$message({
+                message: msg,
+                type: 'success'
+            });
         console.log('submit!');
       },
-      audioQuery(){
-       const loading = this.$loading({
+      getAudio(){
+        const loading = this.$loading({
           lock: true,
           text: 'Loading',
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)',
-          text:'录音中...20秒后进行检索！'
+          text:'录音中...录音时间为10秒！'
         });
         setTimeout(() => {
           loading.close();
-        }, 20000);
-
-        var temp,sentence;
+          console.log('11');
+          this.audioQuery();
+        }, 1000);
+      },
+      audioQuery(){
+        var temp,sentence,number,msg;
         $.ajax({
         data:this.query,
         url: "http://127.0.0.1:5000/audio",
@@ -139,18 +147,28 @@
         success: function (rep) {
             temp = rep.result;
             sentence = rep.sentence;
+            number = rep.number;
             console.log(rep);
         },error:function(error){
-            console.log('error');
-            console.log(error);
+            msg = error.responseJSON.error;
+            console.log('error@'+error.responseJSON.error);
         }
         })
+        if (msg == 'no input'){
+            this.$message.error('语音输入未获取有效检索信息，请重新查询！');
+            return ;
+        }
         this.tableData = temp;
         this.query.sentence = sentence;
+
+        if (number <= 1000)
+            msg = '恭喜你，成功检索到 '+number+' 个结果！';
+        else
+            msg =  '恭喜你，成功检索到 '+number+' 个结果，以下显示前1000个最优结果！';
         this.$message({
-          message: '恭喜你，成功检索到 '+this.tableData.length+' 个结果！',
-          type: 'success'
-        });
+                message: msg,
+                type: 'success'
+            });
         console.log('submit!');
       },
        openFile(index, row) {

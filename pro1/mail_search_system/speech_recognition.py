@@ -34,13 +34,12 @@ def recognize(sig, rate, token):
     headers = {"Content-Type": "application/json",
                "Content-Length": str(data_length)}
     r = requests.post(url, data=json.dumps(data), headers=headers)
-    # print(r.json()['result'])
+
     return r.json()
 
 # filename = "./speechs/input.wav"
 #
 # signal = open(filename, "rb").read()
 # rate = 16000
-#
 # token = get_token()
 # recognize(signal, rate, token)

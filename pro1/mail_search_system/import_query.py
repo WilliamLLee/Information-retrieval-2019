@@ -8,19 +8,33 @@ def import_index(files_path):
     info_path = path[0]
     index_path = path[1]
     print(info_path,index_path)
-    info = {}
-    with codecs.open(info_path , "r", "utf-8") as f:
-        for line in f:
-            info = json.loads(line)
-    print ('=> info of files import succeed!')
 
-    index = {}
-    with codecs.open(index_path , "r", "utf-8") as f:
-        for line in f:
-            index = json.loads(line)
-    print('=> index import succeed!')
+    index_dict = {}
+    words_count_of_file = {}
 
-    return info ,index
+    infof  = open(info_path,'r',encoding='utf-8')
+    for line in infof:
+        info_list = line.strip('\n').split(',')
+        words_count_of_file[info_list[0]] = [0 for i in range(len(order.keys()) + 1)]
+        for i in range(len(order.keys()) + 1):
+            if i == 0 :
+                words_count_of_file[info_list[0]][i] = int(info_list[i+1])
+                continue
+            words_count_of_file[info_list[0]][i] = float(info_list[i+1])
+    infof.close()
+
+    indexf = open(index_path, 'r', encoding='utf-8')
+    for line in indexf:
+        index_list = line.strip('\n').split('#')
+        index_dict[index_list[0]] = {}
+        for i in range(len(index_list)):
+            if i == 0:
+                continue
+            cc = index_list[i].split(':')
+            index_dict[index_list[0]][cc[0]] = float(cc[1])
+    indexf.close()
+
+    return words_count_of_file,index_dict
 
 # 获取键盘输入，进行查询匹配
 
@@ -49,6 +63,4 @@ def  query(q_sentence,index_dict,words_count_of_file,type):
     rank_list = sorted(score.items(),key=lambda x:x[1],reverse=True)
     return rank_list
 
-# test = 'Tue, 12 Dec 2000 23:04:00 -0800 (PST)'
-info_dict,index_dict = import_index(files)
-# print(query(test,index_dict,info_dict,'-D'))
+

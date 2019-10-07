@@ -5,8 +5,7 @@ from nltk.stem import *
 import math
 import time
 import re
-import json
-import codecs
+
 
 mail_path = '..\enron_mail_20150507\maildir'  #邮件文件根目录
 number_file = '..\mail_list.txt'        # 存储文件编号映射表
@@ -79,7 +78,9 @@ def split_lemmatize(sentence,type):
 # 给不同域的词项后缀进行标号,用于为不同的文本域进行存储向量空间长度做标志
 order = {'D':1,'F':2,'T':3,'S':4,'C':5}
 
-def index_build(mail_list_file,target_path):
+files = './file_content.txt'           # 保存最新的两个文件，querry始终读取这两个文件路径
+
+def index_build(mail_list_file,target_path,files_path):
     f_read = open(mail_list_file,'r',encoding='utf-8')  #打开文件映射表
     file_list = []          # 将文件映射表内容存在这个2*x维列表中
     for line in f_read :
@@ -137,48 +138,44 @@ def index_build(mail_list_file,target_path):
                             index_dict[ key][file[0]]= count[temp]
 
 
-        if int(file[0]) > 10000 :
-            break
+        # if int(file[0]) > 1000 :
+        #     break
     print('=>index building end successfully!')           # 索引建立完毕提示
 
 
     #  构建索引并保存索引的相关代码，下面是相关提示信息输出
-    index_path =  target_path+'/'+time.strftime('%Y-%m-%d',time.localtime(time.time()))+ '_index.json'
-    file_info_path =  target_path+'/'+time.strftime('%Y-%m-%d',time.localtime(time.time()))+ '_file_info.json'
+    index_path =  target_path+'/'+time.strftime('%Y-%m-%d',time.localtime(time.time()))+ '_index.txt'
+    file_info_path =  target_path+'/'+time.strftime('%Y-%m-%d',time.localtime(time.time()))+ '_file_info.txt'
     print ('=>save index to file :'+index_path+'\n=>save information of files to :'+ file_info_path )
 
-    # 计算索引
+    indexf = open(index_path, 'w', encoding='utf-8')  # 打开索引输出文件流
+    infof = open(file_info_path, 'w', encoding='utf-8')  # 打开文件输出流，输出文件中不同域文本的向量空间长度
     for item in index_dict.keys():
         df = len(index_dict[item])
+        indexf.write(item)
         for temp in index_dict[item].keys():
             index_dict[item][temp] = math.log(file_count_num / df) * (1 + math.log(index_dict[item][temp]))
             words_count_of_file[temp][order[item[-1]]] = words_count_of_file[temp][order[item[-1]]] +math.pow(index_dict[item][temp] ,2)
-
-    for item in words_count_of_file.keys():
-        for i in range(len(words_count_of_file[item])):
-            if i ==0 :
-                continue
+            indexf.write( format('#'+temp+':%.2f'%index_dict[item][temp]))
+        indexf.write('\n')
+    for item in words_count_of_file:
+        infof.write(item)
+        for temp in  range(len(words_count_of_file[item])):
+            if temp != 0:
+                infof.write( format(',%.4f'%math.sqrt(words_count_of_file[item][temp])))
             else :
-                words_count_of_file[item][i] = math.sqrt(words_count_of_file[item][i])
+                infof.write(','+str(words_count_of_file[item][temp]))
+        infof.write('\n')
+    infof.close()
+    indexf.close()
+    print('=>index table save successfully！')
 
-    print ('=> index build finished!')
+    f = open(files, 'w', encoding='utf-8')
+    f.write(file_info_path + '\n')
+    f.write(index_path + '\n')
+    f.close()
 
-    # json格式输出索引字典
-    with codecs.open(index_path, 'w', 'utf-8') as outf:
-        json.dump(index_dict, outf, ensure_ascii=False)
-        outf.write('\n')
+    return 'SUCCEED!'
 
-    with codecs.open(file_info_path, 'w', 'utf-8') as outf:
-        json.dump(words_count_of_file, outf, ensure_ascii=False)
-        outf.write('\n')
-    print('=> index saved succeed！')
-
-    return file_info_path, index_path
-
-files = './file_content.txt'           # 保存最新的两个文件，querry始终读取这两个文件路径
-# info_file, index_file = index_build(number_file,target_path)
-# f = open(files,'w',encoding='utf-8')
-# f.write(info_file+'\n')
-# f.write(index_file+'\n')
-# f.close()
-
+# 建索引，存储
+# index_build(number_file, target_path, files)

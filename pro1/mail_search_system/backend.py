@@ -27,7 +27,7 @@ def tran_result(res):
                 }
             )
 
-    return  res_j
+    return res_j
 
 
 @app.route('/',methods=['GET','POST'])
@@ -35,9 +35,13 @@ def query_text():
     # print(request.form)
     test_sentence = request.form['sentence']
     type_s = request.form['type_s']
-    result = query(test_sentence,index_dict,info_dict,type_s)
+    result = tran_result(query(test_sentence,index_dict,info_dict,type_s))
     # print( tran_result(result))
-    return jsonify(tran_result(result))
+    length = len(result)
+    limit = 1000
+    if length <= limit:
+        limit = length
+    return jsonify({'result' :result[0:limit],'number':length})
 
 
 
@@ -54,9 +58,12 @@ def audioQuery():
         return json.dumps({"error": 'no input'}), 500
     print(test_sentence)
     type_s = request.form['type_s']
-    result = query(test_sentence,index_dict,info_dict,type_s)
-    # print( tran_result(result))
-    return  jsonify({'sentence':test_sentence,'result':tran_result(result)})
+    result = tran_result(query(test_sentence,index_dict,info_dict,type_s))
+    length = len(result)
+    limit = 1000
+    if length <= limit:
+        limit = length
+    return  jsonify({'sentence':test_sentence,'result':result[0:limit], 'number': length})
 
 @app.route('/text',methods=['GET','POST'])
 def readText():
@@ -69,7 +76,10 @@ def readText():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # 导出
+    info_dict, index_dict = import_index(files)
+    app.run(debug=True,use_reloader=False)
+
 
 
 
