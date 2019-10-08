@@ -94,6 +94,7 @@
         }
       },
       methods: {
+      <!--文本检索请求-->
       onSubmit() {
         var temp ;
         $.ajax({
@@ -122,6 +123,7 @@
             });
         console.log('submit!');
       },
+      <!--获取音频输入，调用语音查询请求-->
       getAudio(){
         const loading = this.$loading({
           lock: true,
@@ -136,6 +138,7 @@
           this.audioQuery();
         }, 1000);
       },
+      <!--语音查询请求-->
       audioQuery(){
         var temp,sentence,number,msg;
         $.ajax({
@@ -171,6 +174,7 @@
             });
         console.log('submit!');
       },
+      <!--获取文本详情请求-->
        openFile(index, row) {
        var temp
         $.ajax({

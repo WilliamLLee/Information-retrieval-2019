@@ -1,5 +1,6 @@
 from  pre_index_build  import *
 
+# 导入索引的具体函数，从files_path文件中获取最新的检索列表存储路径
 def import_index(files_path):
     f = open(files_path,'r',encoding='utf-8')
     path = []
@@ -36,7 +37,7 @@ def import_index(files_path):
 
     return words_count_of_file,index_dict
 
-# 获取键盘输入，进行查询匹配
+# 获取键盘输入，进行查询匹配，返回排序后的检索评分结果
 
 def  query(q_sentence,index_dict,words_count_of_file,type):
     length,count = split_lemmatize(q_sentence,type)

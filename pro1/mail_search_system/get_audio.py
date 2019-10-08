@@ -32,6 +32,7 @@ def get_audio(filepath):
         stream.close()
         p.terminate()
 
+        # 以WAV格式保存音频
         wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
         wf.setnchannels(CHANNELS)
         wf.setsampwidth(p.get_sample_size(FORMAT))

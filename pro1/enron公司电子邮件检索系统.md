@@ -7,18 +7,34 @@
 - 项目说明
 >项目内容：本系统基于向量空间模型实现对enron公司150位用户50万封电子邮件进行检索
 >检索模型：向量空间模型
->编程语言：Python
+>编程语言：Python     
+>工具包：nltk、flask、elementUI ...
 >数据来源：[eron 电子邮件数据集](http://www.cs.cmu.edu/~enron/)
 >实现功能：基于发件时间、发件人、收件人、主题、正文对邮件进行检索，同时拓展了功能实现语音检索功能，对系统进行整合优化，建立前端UI界面对系统进行友好调用。
 
 > ***=>整体系统实现流程图***
 > ![系统结构](../../../../../../乱七八糟的文件/Typora临时文件/邮件检索系统.jpg)
+> ***=>系统启动步骤***     
+>
+>  1. 解压压缩包，将压缩包加压的文件夹，放在和邮件解压文件夹（邮件解压文件不在作业压缩包中,要自己解压添加，文件的目录结构若未改动则应该运行没有问题）根目录同一路径下,文件树如下所示：
+> ```Python
+> |-|
+> |-enron_mail_20150507
+> |		|--- maildir
+> |			|--- 邮件用户列表分类
+> |-homework  //作业提交压缩包解压
+> |		|--- （文件夹解压所之后的程序和中间文件）    
+> ```
+>  2. 在控制台运性命令`python backend.py `启动flask后端，启动完成后，打开index.html页面即进行查询。（**因索引文件较大，所以启动会耗一些时间，同时保证可用运行内存在4G以内**）
+>   3. ***提示：index.html中使用的 js、cs文件来自网络请求，所以在打开前端页面之前保证网络连接OK！***   
+
 
 
 ## 一 准备工作
+
 ### 1.1 数据分析 
 从文件可以看出，enron电子邮件数据已经经过了一部分的处理，所有的邮件按照150个用户进行了分类保存，在每个用户的类别文件夹中，还按照邮件的不同类型、来源、以及用户自行定义的邮件分类系统进行了归类存放。
-![用户列表目录](D:\我的文件\学习资料\本专业课程资料\大三上\信息检索原理\作业项目\pro1\figures\用户列表目录.jpg)
+![用户列表目录](../../../../../../乱七八糟的文件/Typora临时文件/用户列表目录.JPG)
 
 ![用户邮件分类列表](D:\我的文件\乱七八糟的文件\Typora临时文件\用户邮件分类列表.JPG)
 
@@ -50,7 +66,7 @@ def list_files(path,number_file):
 
 ![文件列表](../../../../../../乱七八糟的文件/Typora临时文件/文件列表.JPG)
 
-之后按照对于邮件的编号对邮件内容进行分域、分词处理，所用的分词器利用NlTK的分词函数进行，分词器实现的功能有：单词小写正规化，分词，词源恢复等，同时基于Python的counter实现对单词的词频统计。再利用Python具有的dict数据结构，将每个文件的词频统计数据记录到词汇字典当中，字典之后跟着一个数据统计字典，内容为所有该词汇出现的文件编号（key）和出现次数（value）。
+之后按照对于邮件的编号对邮件内容进行分域、分词处理，对不同的文本域有不同的分词处理，所用的分词器利用NlTK的分词函数和正则表达式进行，分词器实现的功能有：单词小写正规化，分词，词源恢复等，同时基于Python的counter实现对单词的词频统计。再利用Python具有的dict数据结构，将每个文件的词频统计数据记录到词汇字典当中，字典之后跟着一个数据统计字典，内容为所有该词汇出现的文件编号（key）和出现次数（value）。
 
 以下是相关核心代码：
 
@@ -61,7 +77,7 @@ def list_files(path,number_file):
 # 返回值为经过词形还原之后的一个一个的单词或符号
 def lemmatize_all(sentence):
     wnl = WordNetLemmatizer()     # 声明一个词形还原器
-    for word, tag in nltk.pos_tag(nltk.word_tokenize(sentence)):  # 先分词，再给不同的词贴上标签
+    for word, tag in nltk.pos_tag(re.findall(r'[0-9]+[:][0-9]+[:][0-9]+|[0-9]+[:][0-9]+|[0-9]+[.][0-9]+|[0-9]+|[A-Za-z]+[-\'][A-Za-z]+|[A-Za-z]+|[@$]+',sentence)):  # 先正则分词，再给不同的词贴上标签
         if tag.startswith('NN'):    # 根据标注的不同词性对单词进行词形还原
             yield wnl.lemmatize(word, pos='n')
         elif tag.startswith('VB'):
@@ -77,19 +93,23 @@ def lemmatize_all(sentence):
 #调用lemmatize_all(分词) 函数，并将返回的词条迭代器转换为一个单词列表
 #通过使用counter函数，将单词列表进行词项统计工作，返回一个字典
 #此函数另一个返回值为该输入字符串分词后的单词总数
-def split_lemmatize(sentence):
+def split_lemmatize(sentence,type):
     # 全部转换为小写字符
     sentence_proc = sentence.lower()
-    #去除特殊字符
-    special_items = ['*','-','_','=','\\','/','#','$','%','^','&','(',')','~','<','>','.',',','@','\'']
-    for item in special_items:
-        sentence_proc = sentence_proc.replace(item,' ')
     # nltk分词以及词形还原
-    words =[i for i in lemmatize_all(sentence_proc) ]       # 基于nltk分词，将结果以列表形式存储
+    words = []
+    if type == '-C' or type == '-S':
+        words =[i for i in lemmatize_all(sentence_proc) ]       # 基于nltk分词，将结果以列表形式存储
+    elif type == '-D':
+        words = re.findall(r'[0-9]+[:][0-9]+[:][0-9]+|[0-9]+|[A-Za-z]+',sentence_proc)
+    elif type == '-F' or type == '-T':
+        words = re.findall(r'[0-9]+[.][0-9]+|[0-9]+|[A-Za-z]+|[@]+',sentence_proc)
+    # print(sentence)
+    # print(words)
     count = Counter(words)       # 使用counter进行计数，counter继承了Python的字典数据结构能够很好的解决索引问题
     return len(words),count      #返回句子分词和词形还原之后统计的词条总数以及词项频数
-    
-# 对文件中不同的文本域进行划分的主要代码  （来自函数 split_words）
+   
+# 对文件中不同的文本域进行划分的主要代码，核心思想是利用标识的词项区分  （来自函数 split_words）
  content = open(file[1], 'r', encoding='utf-8')  # 打开一个文件进行读取
             former_word = ''
             for line in content:
@@ -112,16 +132,29 @@ def split_lemmatize(sentence):
 ## 二 文件索引构建
 
 利用文件预处理实现的分词词频字典，通过计算tf-idf的值，构建文件索引表，同时记录所有的文件的向量空间长度，将构建的索引表存入index.txt文件，将记录的文件不同域的词项向量空间长度存入file_info.txt文件中。
-- tf-idf构建函数代码：
+- tf-idf构建和输出函数代码：
 ```python
+      indexf = open(index_path, 'w', encoding='utf-8')  # 打开索引输出文件流
+    infof = open(file_info_path, 'w', encoding='utf-8')  # 打开文件输出流，输出文件中不同域文本的向量空间长度
     for item in index_dict.keys():
         df = len(index_dict[item])
         indexf.write(item)
         for temp in index_dict[item].keys():
-            index_dict[item][temp] = math.log(1000 / df) * (1 + math.log(index_dict[item][temp]))
+            index_dict[item][temp] = math.log(file_count_num / df) * (1 + math.log(index_dict[item][temp]))
             words_count_of_file[temp][order[item[-1]]] = words_count_of_file[temp][order[item[-1]]] +math.pow(index_dict[item][temp] ,2)
-            indexf.write('#'+temp+':'+str(index_dict[item][temp]))
+            indexf.write( format('#'+temp+':%.2f'%index_dict[item][temp]))
         indexf.write('\n')
+    for item in words_count_of_file:
+        infof.write(item)
+        for temp in  range(len(words_count_of_file[item])):
+            if temp != 0:
+                infof.write( format(',%.4f'%math.sqrt(words_count_of_file[item][temp])))
+            else :
+                infof.write(','+str(words_count_of_file[item][temp]))
+        infof.write('\n')
+    infof.close()
+    indexf.close()
+
 ```
 - 文件向量空间长度信息：
 ![文件向量空间长度信息](../../../../../../乱七八糟的文件/Typora临时文件/词汇信息.JPG)
@@ -200,28 +233,29 @@ def recognize(sig, rate, token):
 ```python
 # 获取键盘输入，进行查询匹配
 
-def querry(q_sentence,index_dict,words_count_of_file,type):
-    length,count = split_lemmatize(q_sentence)
+def  query(q_sentence,index_dict,words_count_of_file,type):
+    length,count = split_lemmatize(q_sentence,type)
     score = {}
+    file_count_num = len(words_count_of_file.keys())  # 文件数
+
     for file in words_count_of_file.keys():
         score[file] = 0.0
-        for item in count.keys():
+        for item in count.keys():			# 如果没有语音分析结果，说明录取的音频没有有效的信息，提前退出并返回错误提示
             if item+type not in index_dict.keys():
                 continue
             if file in index_dict[item+type].keys():
                 w = index_dict[item+type][file]
             else :
                 w = 0
-            temp = (1+math.log(count[item]))*math.log(1000/len(index_dict[item+type].keys()))*w
+            temp = (1+math.log(count[item]))*math.log(file_count_num/len(index_dict[item+type].keys()))*w
             score[file] = score[file] +temp
         a_len = words_count_of_file[file][order[type[-1]]]
         if a_len == 0 :
             score[file] = 0.0
             continue
         score[file] = score[file]/a_len
-
+ # 对计算的结果进行排序处理
     rank_list = sorted(score.items(),key=lambda x:x[1],reverse=True)
-    # print(rank_list)
     return rank_list
 ```
 
@@ -239,12 +273,11 @@ def querry(q_sentence,index_dict,words_count_of_file,type):
 
 
 
-
-- 参考资料：
-	- [MIME笔记.阮一峰的网络日志.](http://www.ruanyifeng.com/blog/2008/06/mime.html)	
-	- [nltk官方文档](https://www.nltk.org/#natural-language-toolkit)
-	- [python文档-了解相关python基础](https://docs.python.org/2/library/collections.html#counter-objects)
-	- [elementUI文档](https://element.eleme.cn/#/zh-CN/component/icon)
-	- [flask中文文档](https://dormousehole.readthedocs.io/en/latest/)
-	- [百度智能云语音识别文档](https://cloud.baidu.com/doc/SPEECH/s/rjwvy5jlx/)
+##  ***参考资料：***
+- [MIME笔记.阮一峰的网络日志.](http://www.ruanyifeng.com/blog/2008/06/mime.html)	
+- [nltk官方文档](https://www.nltk.org/#natural-language-toolkit)
+- [python文档-了解相关python基础](https://docs.python.org/2/library/collections.html#counter-objects)
+- [elementUI文档](https://element.eleme.cn/#/zh-CN/component/icon)
+- [flask中文文档](https://dormousehole.readthedocs.io/en/latest/)
+- [百度智能云语音识别文档](https://cloud.baidu.com/doc/SPEECH/s/rjwvy5jlx/)
 

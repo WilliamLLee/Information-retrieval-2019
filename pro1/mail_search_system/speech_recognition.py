@@ -3,6 +3,7 @@ import json
 import uuid
 import base64
 
+# 获取申请的token
 def get_token():
     url = "https://openapi.baidu.com/oauth/2.0/token"
     grant_type = "client_credentials"
@@ -13,13 +14,14 @@ def get_token():
     token = json.loads(r.text).get("access_token")
     return token
 
-
+# 调用语音识别API进行文本化
 def recognize(sig, rate, token):
     url = "http://vop.baidu.com/server_api"
     speech_length = len(sig)
     speech = base64.b64encode(sig).decode("utf-8")
     mac_address = uuid.UUID(int=uuid.getnode()).hex[-12:]
     rate = rate
+    # 查看官方文档后进行参数的设置
     data = {
         "format": "wav",
         "lan": "en",
@@ -37,8 +39,8 @@ def recognize(sig, rate, token):
 
     return r.json()
 
+# # 测试代码
 # filename = "./speechs/input.wav"
-#
 # signal = open(filename, "rb").read()
 # rate = 16000
 # token = get_token()
