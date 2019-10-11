@@ -46,7 +46,7 @@ def  query(q_sentence,index_dict,words_count_of_file,type):
 
     for file in words_count_of_file.keys():
         score[file] = 0.0
-        for item in count.keys():
+        for item in count.keys():            # 如果没有语音分析结果，说明录取的音频没有有效的信息，提前退出并返回错误提示
             if item+type not in index_dict.keys():
                 continue
             if file in index_dict[item+type].keys():
@@ -60,7 +60,7 @@ def  query(q_sentence,index_dict,words_count_of_file,type):
             score[file] = 0.0
             continue
         score[file] = score[file]/a_len
-
+    # 对计算的结果进行排序处理
     rank_list = sorted(score.items(),key=lambda x:x[1],reverse=True)
     return rank_list
 

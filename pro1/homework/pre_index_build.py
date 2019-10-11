@@ -8,7 +8,7 @@ import re
 
 
 mail_path = '..\enron_mail_20150507\maildir'  #邮件文件根目录
-number_file = '..\mail_list.txt'        # 存储文件编号映射表
+number_file = '.\mail_list.txt'        # 存储文件编号映射表
 split_word_error = '.\splits_error.txt'   # 存储分词过程中的error信息
 target_path = './index_files'       # 索引文件保存目标路径
 

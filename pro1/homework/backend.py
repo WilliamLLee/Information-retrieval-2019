@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, render_template,request
 from flask_cors import  *
-from query import *
+from import_query import *
 from get_audio import *
 from speech_recognition import *
 
 app = Flask(__name__)  # 实例化app对象
 CORS(app,supports_credentials=True)    # 解决跨域请求无响应问题
 
-
+# 对检索结果进行处理，将编号转换为对应的邮件存储相对路径，并剔除所有评分为0的结果
 def tran_result(res):
-    f_read = open('..\mail_list.txt','r',encoding='utf-8')  #打开文件映射表
+    f_read = open(number_file,'r',encoding='utf-8')  #打开文件映射表
     file_list = {}          # 将文件映射表内容存在这个2*x维列表中
     for line in f_read :
         mail = line.strip('\n').split(":")
@@ -27,20 +27,26 @@ def tran_result(res):
                 }
             )
 
-    return  res_j
+    return res_j
 
-
+#响应文本检索请求
 @app.route('/',methods=['GET','POST'])
-def query():
+def query_text():
     # print(request.form)
     test_sentence = request.form['sentence']
     type_s = request.form['type_s']
-    result = querry(test_sentence, index_dict, words_count_of_file, type_s)
+    result = tran_result(query(test_sentence,index_dict,info_dict,type_s))
     # print( tran_result(result))
-    return jsonify(tran_result(result))
+
+    # 只返回前1000个以内的结果
+    length = len(result)
+    limit = 1000
+    if length <= limit:
+        limit = length
+    return jsonify({'result' :result[0:limit],'number':length})
 
 
-
+# 响应语音检索请求
 @app.route('/audio',methods=['GET','POST'])
 def audioQuery():
     get_audio(in_path)
@@ -48,16 +54,22 @@ def audioQuery():
     rate = 16000
     token = get_token()
     rec = recognize(signal, rate, token)
+    # 没有获取到识别的文本，说明语音输入有问题，抛出错误
     if 'result' in rec.keys():
         test_sentence = rec['result'][0]
     else:
         return json.dumps({"error": 'no input'}), 500
-    print(test_sentence)
+    # print(test_sentence)
     type_s = request.form['type_s']
-    result = querry(test_sentence, index_dict, words_count_of_file, type_s)
-    # print( tran_result(result))
-    return  jsonify({'sentence':test_sentence,'result':tran_result(result)})
+    result = tran_result(query(test_sentence,index_dict,info_dict,type_s))
+    # 只返回前1000个以内的结果
+    length = len(result)
+    limit = 1000
+    if length <= limit:
+        limit = length
+    return  jsonify({'sentence':test_sentence,'result':result[0:limit], 'number': length})
 
+# 响应文本详情请求
 @app.route('/text',methods=['GET','POST'])
 def readText():
     path = request.form['path']
@@ -69,7 +81,10 @@ def readText():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # 导入索引
+    info_dict, index_dict = import_index(files)
+    app.run(debug=True,use_reloader=False)
+
 
 
 
