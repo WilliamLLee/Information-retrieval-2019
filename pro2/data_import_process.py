@@ -1,8 +1,8 @@
 # date: 2019年10月28日
-# author: 李伟
+# author: lw
 # e-mail: lio6218@163.com
 # description: 本文件主要实现导入数据的模块和生成编号映射关系文件函数,
-# 在编号的同时将繁体字转为简体字，导出的诗文文本json文件存在create文件夹中
+#              在编号的同时将繁体字转为简体字，导出的诗文文本json文件存在create文件夹中
 
 import json
 import zhconv
@@ -13,7 +13,7 @@ authors_song_path = "./chinesepoetry/authors.song.json"
 # 输出的json文件存储路径
 create_path = "./create"
 
-# 给诗文和作者信息汇总到一个文件中去，同时将作者名和描述均转为简体字
+# 给诗文和作者信息转为简体字，同时将生成的结果存入新的文件目录下
 # path为新的路径
 # 作者信息格式为： 作者 描述
 # 诗文编号信息格式为： 作者 诗名 诗文

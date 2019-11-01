@@ -1,5 +1,5 @@
 # date: 2019年10月28日
-# author: 李伟
+# author: lw
 # e-mail: lio6218@163.com
 # description: 本文件主要实现对诗文的文本处理，包括分词函数的实现和索引表构建等
 
@@ -80,8 +80,8 @@ def build_position_index(position_index_file,double_index_file,poets):
     # print(dword_index_t)
 
 # 调试代码
-count,poets = import_poets()
-build_position_index(position_index,double_index,poets)
+# count,poets = import_poets()
+# build_position_index(position_index,double_index,poets)
 
 
 
