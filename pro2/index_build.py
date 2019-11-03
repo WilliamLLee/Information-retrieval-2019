@@ -60,7 +60,7 @@ def build_position_index(position_index_file,double_index_file,poets):
     json.dump(temp, dump_d, indent=0, ensure_ascii=False)
     dump_d.close()
 
-    temp.clear()
+    temp.clear()    # 清除temp列表，方便后面的双子索引相关功能使用
     count = 0
     print("---->>>>>单字索引存储完成,有词项",len(w_list))
     for item in d_list:

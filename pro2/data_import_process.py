@@ -100,6 +100,33 @@ def import_authors(path):
     authors = json.load(load_f)
     return authors
 
+# 获取双字倒排索引,json文本中的存储方式为元组列表，每一个元组是一个字典项转换而来
+# return：返回一个字典结构，存储双字倒排索引
+# 默认从./create/double_index目录下按照既定的规则读取数据
+# date：2019.11.2
+def import_d_index():
+    d_index_list = []
+    for i in range(0,209):
+        f = open ('./create/double_index/%d0000.json'%i,'r',encoding="UTF-8")
+        temp = json.load(f)
+        d_index_list.extend(temp)
+    print("------>>>双字短语索引导入成功")
+    # 转为字典的数据结构返回
+    return  dict(d_index_list)
+# 获取存储的位置索引，json文本中的存储方式为元组列表，每一个元组是一个字典项转换而来
+# return：返回一个字典数据结构
+# 默认从./create/position_index目录下按照生成文件的规则读取数据
+# date：2019.11.2
+def import_p_index():
+    p_index_list = []
+    for i in range(0,22):
+        f = open ('./create/position_index/%d.json'%(i*500),'r',encoding="UTF-8")
+        temp = json.load(f)
+        p_index_list.extend(temp)
+    print("------>>>位置索引导入成功")
+    # 转为字典的数据结构返回
+    return  dict(p_index_list)
+
 
 # 测试调用
 
@@ -111,3 +138,5 @@ def import_authors(path):
 # print(poets)
 # convert_poets_lang()
 # print(import_poets())
+
+# rint(import_p_index())
