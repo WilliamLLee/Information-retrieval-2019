@@ -9,6 +9,17 @@ import json
 # 位置索引存储路径
 position_index = "./create/position_index/"
 double_index = "./create/double_index/"
+author_index = "./create/author_index/"
+
+# 构建作者的索引，其后保存其所做诗文的编号，实现基于作者查询诗文的功能
+# param: authtor_index_file 索引存储路径，poet_info 诗文作者信息列表
+# return： NULL
+# date: 2019.11.3
+def build_author_index(author_index_file,poet_info):
+
+    return 0
+
+
 
 # 构建位置索引和双字索引
 # 即以单字为词项，其后跟随存在该词项的诗文编号和出现该词项的偏移量
@@ -32,7 +43,7 @@ def build_position_index(position_index_file,double_index_file,poets):
                         dword_index_t[word_item].append(no)
 
             # 构建单字索引表
-            if word_list[i] in ['，','。']:       # 构建单字索引跳过逗号和句号
+            if word_list[i] in ['，','。']:       # 构建单字索引跳过逗号和句号，但是在索引的位置上逗号和句号的位置保留
                 continue
             if(word_list[i] not in word_index_t.keys()):
                 word_index_t[word_list[i]] = {  no:[i],}

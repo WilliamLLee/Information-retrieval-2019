@@ -5,10 +5,12 @@
 
 from  data_import_process import import_d_index  # 引入双字索引导入函数
 from data_import_process import import_p_index # 引入位置所引导入函数
+from data_import_process import import_poets
 
 # 导入索引
 double_index = import_d_index()
 position_index = import_p_index()
+count,poets = import_poets()
 
 # 双字查询函数，对于双字短语，通过直接查询双字索引返回结果
 # param：sentence 短语文本
@@ -19,11 +21,32 @@ def dw_query(sentence):
 
 # 处理非双字的短语或单字查询
 # param：Word_list 单字列表，这里面没有去除“，”和“。”
-# return ： 返回一个编号列表
+# return ： 返回一个编号列表，如果没有找到，返回空的数据结构
 # date：2019.11.2
 def phrase_query(word_list):
+    res_index = []         # 保存返回结果的编号列表
+    pre_dict = dict()              # 保留前一个字的位置信息
+    gap = 1
+    for i in  range(len(word_list)):
+        if word_list[i] in ['，','。']:  # 如果为逗号或者句号，不做处理
+            gap = gap+1
+            continue
+        elif i==0 :
+            pre_dict = dict(position_index[word_list[0]])  # 获取第一个字的位置信息
+            res_index.extend(pre_dict.keys())
+            continue
 
-    return 0
+        cur_dict = dict(position_index[word_list[i]])        # 获取该字对应的词项字典
+        res_index = [x for x in res_index if x in cur_dict.keys()]
+        temp_index = []
+        for item in res_index:
+            tt = [ i for i in pre_dict[item] if i+gap in cur_dict[item]]
+            if len(tt) != 0:
+                temp_index.append(item)
+        res_index = temp_index
+        pre_dict = cur_dict
+        gap =1
+    return res_index
 
 
 # 查询函数，传入参数为查询文本
@@ -38,14 +61,22 @@ def query(query_sentence):
     query_result =[]
     # 处理查询文本,判断是否为双字查询，短语查询忽略“，”和“。”
     text_list = [i for i in query_sentence]
-    if('，'not in text_list and '。'not in text_list \
+    if('，'not in text_list and '。'not in text_list\
             and len(text_list)==2 ):
         query_result = dw_query(query_sentence)                                     # 调用处理双字查询的函数
     else:
-        print("处理非双字短语查询或单字查询，基于位置索引")                           # 调用基于位置查询的处理函数
+        query_result = phrase_query(text_list)                           # 调用基于位置查询的处理函数
     # 返回查询结果，如果没有找到，则返回空列表
     return query_result
 
 
+# 将诗文编号转换为响应的诗文列表,可以对此函数进行修改实现对于返回结果的控制
+# param: index_list 诗文编号
+# return ： 返回一个诗文的列表
+def convert_result(index_list):
+    return [poets[int(i)] for i in index_list]
+
 # 测试调用
-print(query("瘦马"))
+index_list = query("安然乐道")
+print("result_list",len(index_list),index_list)
+print(convert_result(index_list))
