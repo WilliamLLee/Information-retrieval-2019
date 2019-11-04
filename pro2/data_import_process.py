@@ -6,6 +6,8 @@
 
 import json
 import zhconv
+# 注意这里的引入可能会导致冲突，因此就不引入了
+# from index_build import  title_index,author_index
 
 # 作者信息存储路径
 authors_tang_path = "./chinesepoetry/authors.tang.json"
@@ -92,6 +94,28 @@ def import_poets():
             count = count + 1
     return count,poets
 
+# 按照编号顺序导入诗文信息，包括诗文以及作者诗名等信息
+# 返回值为诗文的总量count ,和诗文信息的列表 poets_info
+# date: 2019.11.1
+def import_poets_info():
+    count = 0
+    poets_info = []
+    for j in range(0,255):
+        f = open("./create/song/%d.json"%(j*1000),'r',encoding="UTF-8")
+        temp = json.load(f)
+        for k  in range(len(temp)):
+            poets_info.append(temp[k])
+            count = count + 1
+    for j in range(0,58):
+        f = open("./create/tang/%d.json"%(j*1000),'r',encoding="UTF-8")
+        temp = json.load(f)
+        for k  in range(len(temp)):
+            poets_info.append(temp[k])
+            count = count + 1
+    return count,poets_info
+
+
+
 # 读取作者信息，返回一个列表
 # path 为诗人信息的存储文件
 # 返回值authors为诗人信息列表
@@ -99,6 +123,7 @@ def import_authors(path):
     load_f = open(path,'r',encoding="UTF-8")
     authors = json.load(load_f)
     return authors
+
 
 # 获取双字倒排索引,json文本中的存储方式为元组列表，每一个元组是一个字典项转换而来
 # return：返回一个字典结构，存储双字倒排索引
@@ -113,6 +138,8 @@ def import_d_index():
     print("------>>>双字短语索引导入成功")
     # 转为字典的数据结构返回
     return  dict(d_index_list)
+
+
 # 获取存储的位置索引，json文本中的存储方式为元组列表，每一个元组是一个字典项转换而来
 # return：返回一个字典数据结构
 # 默认从./create/position_index目录下按照生成文件的规则读取数据
@@ -126,6 +153,14 @@ def import_p_index():
     print("------>>>位置索引导入成功")
     # 转为字典的数据结构返回
     return  dict(p_index_list)
+
+# 导入标题和作者索引表
+# date：2019.11.3
+def import_author_title_index():
+    author = open("./create/author_index/author_index.json", 'r', encoding="UTF-8")
+    title= open("./create/title_index/title_index.json", 'r', encoding="UTF-8")
+    print("->>>>> 作者标题索引导入成功！")
+    return json.load(author),json.load(title)
 
 
 # 测试调用

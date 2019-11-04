@@ -4,26 +4,64 @@
 # description: 本文件主要实现对诗文的文本处理，包括分词函数的实现和索引表构建等
 
 from data_import_process import import_poets
+from data_import_process import import_poets_info
 import json
 
 # 位置索引存储路径
 position_index = "./create/position_index/"
 double_index = "./create/double_index/"
-author_index = "./create/author_index/"
+author_index = "./create/author_index/author_index.json"
+title_index = "./create/title_index/title_index.json"
+
+# 构建诗文标题的索引，采用单字位置索引的方式
+# param: title_index_file 索引存储路径，poet_info 诗文作者信息列表
+# return： NULL
+# date: 2019.11.3
+def build_title_index(title_index_file,poet_info,count):
+    # 建立字典
+    index_dict = {}
+    for i in range(count):
+        print("->>>>>>>处理诗文数量：%d"%(i))
+        title_name = poet_info[i]["title"]
+        title_list = [i for i in title_name]
+        for j  in range(len(title_list)):
+            if title_list[j] not in index_dict.keys():
+                index_dict[title_list[j]] = {i:[j] }
+            else:
+                if i not in index_dict[title_list[j]].keys():
+                    index_dict[title_list[j]][i] = [j]
+                else:
+                    index_dict[title_list[j]][i].append(j)
+    # 将索引存储
+    f = open(title_index_file,'w',encoding="UTF-8")
+    json.dump(index_dict,f, indent=0, ensure_ascii=False)
+    f.close()
+    print("->>>>>>标题索引构建完成，共有词项：%d"%(len(index_dict.keys())))
+
 
 # 构建作者的索引，其后保存其所做诗文的编号，实现基于作者查询诗文的功能
 # param: authtor_index_file 索引存储路径，poet_info 诗文作者信息列表
 # return： NULL
 # date: 2019.11.3
-def build_author_index(author_index_file,poet_info):
-
-    return 0
-
+def build_author_index(author_index_file,poet_info,count):
+    # 建立字典
+    index_dict = {}
+    for i in range(count):
+        author_name = poet_info[i]["author"]
+        if author_name not in index_dict.keys():
+            index_dict[author_name] = [i]
+        else:
+            index_dict[author_name].append(i)
+    # 将索引存储
+    f = open(author_index_file,'w',encoding="UTF-8")
+    json.dump(index_dict,f, indent=0, ensure_ascii=False)
+    f.close()
+    print("->>>>>>作者索引构建完成，共有诗人%d名"%(len(index_dict.keys())))
 
 
 # 构建位置索引和双字索引
 # 即以单字为词项，其后跟随存在该词项的诗文编号和出现该词项的偏移量
-def build_position_index(position_index_file,double_index_file,poets):
+def build_p_d_index(position_index_file,double_index_file,poets):
     word_index_t = {}
     dword_index_t = {}
     for no in range(len(poets)):
@@ -92,8 +130,12 @@ def build_position_index(position_index_file,double_index_file,poets):
 
 # 调试代码
 # count,poets = import_poets()
-# build_position_index(position_index,double_index,poets)
+# build_p_d_index(position_index,double_index,poets)
 
+# count,poets_info = import_poets_info()
+# build_author_index(author_index,poets_info,count)
 
+# count,poets_info = import_poets_info()
+# build_title_index(title_index,poets_info,count)
 
 
