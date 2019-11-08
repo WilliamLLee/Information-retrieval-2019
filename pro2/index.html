@@ -2,51 +2,66 @@
 <html>
 <head>
   <meta charset="UTF-8">
+    <title>中华古诗词检索系统</title>
   <!-- import CSS -->
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <body>
-  <div id="app">
-<el-form :inline="true" :model="query" class="demo-form-inline">
 
-<el-form-item label="请选择查询种类：">
+  <div id="app">
+      <div align="center">
+ <el-image src="./create/header.JPG" align="center"></el-image></div>
+<el-form :inline="true" :model="query" class="demo-form-inline" align="center" >
+
+<el-form-item label="请选择检索类型：">
  <el-select v-model="query.type_s" placeholder="请选择" >
-    <el-option label="日期" value="-D"></el-option>
-      <el-option label="发件人" value="-F"></el-option>
-     <el-option label="收件人" value="-T"></el-option>
-      <el-option label="主题" value="-S"></el-option>
-       <el-option label="正文" value="-C"></el-option>
+    <el-option label="作者检索" value="author"></el-option>
+      <el-option label="题目检索" value="title"></el-option>
+     <el-option label="正文检索" value="paragraphs"></el-option>
+      <!--<el-option label="混合检索" value="mix"></el-option>-->
   </el-select>
 </el-form-item>
 <el-form-item label="请输入检索内容：">
-    <el-input v-model="query.sentence" placeholder="检索内容"  ></el-input>
+    <el-input v-model="query.sentence"  placeholder="正文检索支持与或非查询"  ></el-input>
   </el-form-item>
 
     <el-form-item>
     <el-button type="primary" @click="onSubmit">检索</el-button>
   </el-form-item>
 
-    <el-form-item>
-    <el-button type="primary" @click="getAudio" >语音检索</el-button>
-  </el-form-item>
+    <!--<el-form-item>-->
+    <!--<el-button type="primary" @click="getAudio" >如诗如画</el-button>-->
+  <!--</el-form-item>-->
 </el-form>
 
 <el-table
-    :data="tableData.filter(data => !search || data.path.toLowerCase().includes(search.toLowerCase()))"
-    style="width: 100%">
+    :data="tableData.filter(data => !search || data.author.toLowerCase().includes(search.toLowerCase()))"
+    style="width: 100%"
+      heigth="100">
     <el-table-column
       type="index"
       width="50">
     </el-table-column>
     <el-table-column
-      label="Path"
-      prop="path"
-      width="500">
+      label="作者"
+      width="150">
+         <template slot-scope="scope">
+            <span class="col-cont" v-html="showDate(scope.row.author)" ></span>
+     </template>
     </el-table-column>
     <el-table-column
-      label="Score"
-      prop="score"
-      width="400">
+      label="诗题"
+      width="300">
+        <template slot-scope="scope">
+            <span class="col-cont" v-html="showDate(scope.row.title)" ></span>
+     </template>
+    </el-table-column>
+    <el-table-column
+      label="诗文"
+      width="700">
+        <template slot-scope="scope">
+            <span class="col-cont" v-html="showDate(scope.row.paragraphs)" ></span>
+     </template>
     </el-table-column>
     <el-table-column
       align="left">
@@ -54,20 +69,20 @@
         <el-input
           v-model="search"
           size="mini"
-          placeholder="输入Path关键字搜索"/>
+          placeholder="输入Author关键字搜索"/>
       </template>
       <template slot-scope="scope">
         <el-button
           size="mini"
           type="danger"
-          @click="openFile(scope.$index, scope.row)">open</el-button>
+          @click="openFile(scope.$index, scope.row)">author detail</el-button>
       </template>
     </el-table-column>
   </el-table>
 
-      <el-dialog :visible.sync="visible" title="文本预览">
-      <p ：data="text"></p>
-    </el-dialog>
+      <!--<el-dialog :visible.sync="visible" title="作者简介">-->
+      <!--<p ：data="text"></p>-->
+    <!--</el-dialog>-->
   </div>
 
 </body>
@@ -86,14 +101,17 @@
             visible: false,
             percentage: 0,
             query:{
-                sentence:'content',
-                type_s:'-C'
+                sentence:'',
+                type_s:'paragraphs'
                 },
-           tableData: [],
+           tableData: [
+            ],
            search: ''
         }
       },
       methods: {
+      <!--高亮文本显示-->
+        showDate(val) {  return val   },
       <!--文本检索请求-->
       onSubmit() {
         var temp ;
@@ -112,6 +130,7 @@
         }
         })
         this.tableData = temp.result;
+        console.log(temp)
         var msg ;
         if ( temp.number <= 1000)
             msg = '恭喜你，成功检索到 '+temp.number+' 个结果！';
@@ -124,64 +143,28 @@
         console.log('submit!');
       },
       <!--获取音频输入，调用语音查询请求-->
-      getAudio(){
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)',
-          text:'录音中...录音时间为10秒！'
-        });
-        setTimeout(() => {
-          loading.close();
-          console.log('11');
-          this.audioQuery();
-        }, 1000);
-      },
-      <!--语音查询请求-->
-      audioQuery(){
-        var temp,sentence,number,msg;
-        $.ajax({
-        data:this.query,
-        url: "http://127.0.0.1:5000/audio",
-        type: "POST",
-        async: false,
-        dataType: "JSON",
-        success: function (rep) {
-            temp = rep.result;
-            sentence = rep.sentence;
-            number = rep.number;
-            console.log(rep);
-        },error:function(error){
-            msg = error.responseJSON.error;
-            console.log('error@'+error.responseJSON.error);
-        }
-        })
-        if (msg == 'no input'){
-            this.$message.error('语音输入未获取有效检索信息，请重新查询！');
-            return ;
-        }
-        this.tableData = temp;
-        this.query.sentence = sentence;
-
-        if (number <= 1000)
-            msg = '恭喜你，成功检索到 '+number+' 个结果！';
-        else
-            msg =  '恭喜你，成功检索到 '+number+' 个结果，以下显示前1000个最优结果！';
-        this.$message({
-                message: msg,
-                type: 'success'
-            });
-        console.log('submit!');
-      },
-      <!--获取文本详情请求-->
+      <!--getAudio(){-->
+        <!--const loading = this.$loading({-->
+          <!--lock: true,-->
+          <!--text: 'Loading',-->
+          <!--spinner: 'el-icon-loading',-->
+          <!--background: 'rgba(0, 0, 0, 0.7)',-->
+          <!--text:'录音中...录音时间为10秒！'-->
+        <!--});-->
+        <!--setTimeout(() => {-->
+          <!--loading.close();-->
+          <!--console.log('11');-->
+          <!--this.audioQuery();-->
+        <!--}, 1000);-->
+      <!--},-->
+      <!--获取作者详情请求-->
        openFile(index, row) {
        var temp
         $.ajax({
         data:{
-                path :this.tableData[index].path
+                author :this.tableData[index].author
             },
-        url: "http://127.0.0.1:5000/text",
+        url: "http://127.0.0.1:5000/detail",
         type: "POST",
         async: false,
         dataType: "text",
@@ -193,8 +176,7 @@
             console.log(error);
         }
         })
-
-       this.$alert('<textarea style="width: 100%" rows="40" >'+temp+'</textarea>', '', {
+       this.$alert('<textarea style="width: 100%" rows="20" >'+temp+'</textarea>', '作者简介', {
            dangerouslyUseHTMLString: true
          });
       },

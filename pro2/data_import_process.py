@@ -16,9 +16,10 @@ authors_song_path = "./chinesepoetry/authors.song.json"
 create_path = "./create"
 
 # 给诗文和作者信息转为简体字，同时将生成的结果存入新的文件目录下
-# path为新的路径
+# 依次处理的为诗人信息（唐朝、宋朝）、宋诗、唐诗
 # 作者信息格式为： 作者 描述
-# 诗文编号信息格式为： 作者 诗名 诗文
+# 诗文信息格式为： 作者 诗名 诗文
+# 转换使用的工具保卫SnowNLP
 def convert_poets_lang():
     # 唐朝诗人信息
     load_f_t = open(authors_tang_path, 'r', encoding="UTF-8")

@@ -129,8 +129,8 @@ def build_p_d_index(position_index_file,double_index_file,poets):
     # print(dword_index_t)
 
 # 调试代码
-# count,poets = import_poets()
-# build_p_d_index(position_index,double_index,poets)
+count,poets = import_poets()
+build_p_d_index(position_index,double_index,poets)
 
 # count,poets_info = import_poets_info()
 # build_author_index(author_index,poets_info,count)
