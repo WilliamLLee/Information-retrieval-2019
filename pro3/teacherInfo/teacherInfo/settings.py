@@ -21,7 +21,7 @@ NEWSPIDER_MODULE = 'teacherInfo.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
-ITEM_PIPELINES = { 'teacherInfo.pipelines.TeacherinfoPipeline': 1,}
+ITEM_PIPELINES = { 'teacherInfo.pipelines.TeacherinfoPipeline': 300,}
 IMAGES_STORE = '../../doc/lt/imgs/'   #存储图片的文件夹位置
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)

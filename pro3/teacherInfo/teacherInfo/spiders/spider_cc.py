@@ -32,7 +32,7 @@ class CCTeacherInfoSpider(scrapy.Spider):
         # 获取每位老师具体介绍页面链接锚文本
         nexturls = teacherItems.css('a')
         # 输出链接数据
-        file = open('../../../docs/%s/index.txt'%self.name,'a',encoding='utf-8')
+        file = open('../docs/%s/index.txt'%self.name,'a',encoding='utf-8')
         for urlt in nexturls:
             file.write(urlt.xpath('text()').get()+","+self.baseurl+urlt.xpath("@href").get()+'\n')
             # 递归回调解析教师信息的解析器
@@ -43,7 +43,7 @@ class CCTeacherInfoSpider(scrapy.Spider):
     def parseTeacher(self,response):
         details = response.xpath('//div[@class="body-introduce"]')
         filename = str(details.xpath('.//div[@class="form col-md-7"]/p[1]/span[2]/text()').get()).replace('\n','').replace(' ','').replace('\r','')
-        f = open('../../../docs/%s/%s.txt'%(self.name,filename),'w',encoding='utf-8')
+        f = open('../docs/%s/%s.txt'%(self.name,filename),'w',encoding='utf-8')
         for item in details.xpath('.//div[@class="form col-md-7"]').css("p"):
             if item.css("span").get() is  None:
                 if item.xpath("text()").get() is not None:

@@ -18,10 +18,8 @@ class TeacherinfoPipeline(ImagesPipeline):
         yield scrapy.Request(item['image_url'])
 
     def item_completed(self, results, item, info):
+        print(results)
         # 对壁纸进行重命名
-        os.rename(image_store + '/' + results[0][1]['path'], image_store + '/' + item['image_name'] + '.jpg')
+        os.rename(image_store + '/' + results[0][1]['path'], image_store + '/' + item['image_name'] + str(results[0][1]['path']).split('.')[-1])
 
-    def __del__(self):
-        # 完成后删除full目录
-        os.removedirs(image_store + '/' + 'full')
 
