@@ -41,8 +41,8 @@ class HTTeacherInfoSpider(scrapy.Spider):
     def parse(self, response):
         # 得到锚文本
         teacherItems = response.xpath('//ul[@class="wp_article_list"]')
-        #print(teacherItems.getall())
-        #获取每位老师具体介绍页面链接锚文本
+
+        #获取每位老师具体介绍页面链接锚文本解析得到链接
         nexturls = teacherItems.xpath('.//li')
         for urlt in nexturls:
             nurl = str(self.baseurl+urlt.xpath(".//a/@href").get()).replace('\n','').replace(' ','').replace('\r','').replace('\t','')
@@ -61,9 +61,8 @@ class HTTeacherInfoSpider(scrapy.Spider):
 
     def parseTeacher(self,response):
         #/html/body/div[3]/div/div/div
+        # 保存网页的主体内容
         details = response.xpath('//div[@portletmode="simpleArticleAttri"]')
-        #print(details.getall())
-        #print(details.xpath('.//div[@class="lxfs-info"]').get())
         filename=str(details.xpath('.//div[@class="name"]/text()').get()).replace('\n','').replace(' ','').replace('\r','')
         f = open('../docs/%s/%s.txt'%(self.name,filename),'w',encoding='utf-8')
         f.write(filename+'\n')
@@ -78,7 +77,7 @@ class HTTeacherInfoSpider(scrapy.Spider):
                 f.write(str(text).replace('\n','').replace(' ','').replace('\r',''))
                 f.write('\n')
         f.close()
-        # 存儲映射信息
+        # 存儲教师姓名和网址映射信息
         file = open('../docs/%s/index.txt'%self.name,'a',encoding='utf-8')
         file.write(filename+ "," + response.url+ '\n')
         file.close()
@@ -87,7 +86,6 @@ class HTTeacherInfoSpider(scrapy.Spider):
         item = TeacherinfoItem()
         item['image_name'] = filename
         item['image_url'] = self.baseurl + imgurl
-        #print(item['image_name'], item['image_url'])
         request = scrapy.Request(url=item['image_url'], callback=self.parseImg)
         request.meta['item'] = item
         yield request

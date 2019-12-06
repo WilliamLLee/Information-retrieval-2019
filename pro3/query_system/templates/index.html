@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/iconfont.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/demo1.css')}}">
+    <script src="{{url_for('static', filename='js/jquery-3.3.1.js')}}"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="top">
+            <ul>
+                <li class="song">
+                    <a href="#">新闻</a>
+                </li>
+                <li class="song">
+                    <a href="#">hao123</a>
+                </li>
+                <li class="song">
+                    <a href="#">地图</a>
+                </li>
+                <li class="song">
+                    <a href="#">视频</a>
+                </li>
+                <li class="song">
+                    <a href="#">贴吧</a>
+                </li>
+                <li class="song">
+                    <a href="#">学术</a>
+                </li>
+                <li>
+                    <a href="#" class="login-btn">登录</a>
+                </li>
+                <li class="set">
+                    <a href="#">设置 </a>
+                    <div class="settings">
+                        <i class="con"></i>
+                        <span class="">搜索设置</span>
+                        <span class="">高级搜索</span>
+                        <span class="">关闭预测</span>
+                        <span class="">搜索历史</span>
+                    </div>
+                </li>
+            </ul>
+            <span class="clear">
+                <span class="more">更多产品</span>
+                <div class="right">
+                    <ul>
+                        <li>
+                            更多产品
+                        </li>
+                        <li>
+                            <a href="#" class="line">
+                                <span class="nuomi"></span> 糯米
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="line">
+                                <span class="yinyue"></span> 音乐
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="line">
+                                <span class="zhidao"></span> 知道
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="line">
+                                <span class="wenku"></span> 文库
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="line">
+                                <span class="tupian"></span> 图片
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="line">
+                                <span class="fengyunbang"></span> 风云榜
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+
+        <div class="center" >
+            <img class="indexIma" src="{{url_for('static', filename='images/index.png')}}">
+            <div class="search-div">
+                <input type="text" value="">
+                <i class="camera iconfont icon-comments"></i>
+                <a class="search" href="#">百度一下</a>
+            </div>
+            <ul class="search-ul">
+               
+            </ul>
+        </div>
+
+    </div>
+
+    <script src="{{url_for('static', filename='js/demo1.js')}}"></script>
+</body>
+
+</html>

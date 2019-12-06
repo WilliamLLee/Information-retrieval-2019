@@ -1,0 +1,273 @@
+body,html{
+	background:url(../images/images1.jpg);
+	min-height:100%;/*当页面的高度不足一屏幕的时，我们让其最小也得是一屏幕*/
+	/*background-size: cover;*//*是指背景图片大小:cover按照当前图片最合适的比例铺满整个图片*/
+	/*widows:100%;*/
+	}
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: #424242;
+
+}
+.top{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: right;
+}
+.top ul li{
+    display: inline-block;
+    font-size: 90%;
+    width: 40px;
+    text-align: center;
+}
+.song{
+    font-family: "宋体";
+    font-weight: bold;
+}
+
+.top ul {
+    display: inline-block;
+}
+.settings{
+    position: absolute;
+    right: 90px;
+    width: 100px;
+    text-align: center;
+    line-height: 25px;
+    box-shadow: 1px 1px 5px #888;
+    display: none;
+}
+.settings span{
+    display: block;
+    cursor: pointer;
+}
+.settings span:hover{
+    background: blue;
+    color: aliceblue;
+}
+
+.settings::before, .con{
+    content: "";
+    position: absolute;
+    top: -16px;
+    left: -8px;
+    margin: 0 50%; 
+    border-top: 8px solid rgba(146, 28, 28,0);
+    border-right: 8px solid rgba(146, 28, 28,0);
+    border-left: 8px solid rgba(146, 28, 28,0);
+    border-bottom: 8px solid rgb(255, 255, 255);
+}
+.con{
+    top: -18px;
+    z-index: -999;
+    border-bottom: 9px solid #ccc;
+}
+.set:hover .settings{
+    display: block;
+}
+.more{
+    font-size: 90%;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: #4d94ff;
+    color: rgb(255, 255, 255);
+    margin: 0 20px;
+    cursor: pointer;
+}
+
+/* right */
+
+.right{
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    background: #f2f2f2;
+    z-index: 99;
+    right: 0;
+    top: 0;
+    display: none;
+}
+.clear:hover .right{
+    display: block;
+}
+.right ul li:first-child{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-bottom: 1px solid rgb(202, 202, 202);
+}
+.right ul li{
+    width: 100%;
+    text-align: center;
+    
+}
+.right ul li .line{
+    text-decoration: none;
+}
+.right ul li:hover .line{
+    text-decoration: underline;
+}
+
+.nuomi, .zhidao, .tupian, .wenku, .yinyue, .fengyunbang{
+    display: block;
+    margin: auto;
+    width: 36px;
+    height: 36px;
+    background-image: url(../images/img.png);
+    background-repeat: no-repeat;
+    margin-top: 20px;
+}
+.nuomi{
+    background-position: 0;
+}
+.zhidao{
+    background-position: -36px ;
+}
+.tupian{
+    background-position: -112px;
+}
+.wenku{
+    background-position: -144px;
+}
+.yinyue{
+    width: 40px;
+    background-position: -72px;
+}
+.fengyunbang{
+    background-position: -186px;
+}
+
+.center{
+    width: 700px;
+    margin: 100px auto 0 auto;
+    text-align: center;
+}
+.indexIma{
+    width: 260px;
+}
+input{
+    width: 500px;
+}
+
+.search, input{
+    padding: 5px 10px;
+    font-size: 110%;
+    vertical-align: middle;
+}
+.search{
+    color: #fff;
+    background: #4d94ff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.camera{
+    position: absolute;
+    right: 150px;
+    top:10px;
+    font-size: 110%;
+    z-index: 9;
+}
+.search-div{
+    position: relative;
+}
+
+.login{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width:100%;
+    background: rgba(0, 0, 0, .5);
+}
+.login-form{
+    position: relative;
+    background: #fff;
+    width: 350px;
+    height: 400px;
+    text-align: center;
+    margin:10% auto;
+    
+}
+
+.login-form input{
+    box-sizing: border-box;
+    width: 80%;
+    padding: 10px 5px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+.login-form input:focus{
+    border: 1px solid #4d94ff;
+}
+
+.user-name{
+    margin: 35px 0 20px 0;
+}
+
+.close{
+    display: block;
+    width: 100%;
+    height: 30px;
+    line-height: 20px;
+}
+.close span{
+    float: right;
+    margin: 10px 15px;
+}
+.close span:hover{
+    font-weight: bold;
+}
+.title-div{
+    margin:0 0 0 20px;
+    text-align: left;
+}
+
+input[type="checkbox"]{
+    width: 12px;
+    height: 12px;
+    margin:0 5px 0 35px;
+}
+
+.remember label{
+    font-size: 12px;
+    display: inline-block;
+}
+.remember{
+    text-align: left;
+    margin: 10px 0;
+}
+input[type="submit"]{
+    background: #4d94ff;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 4px;
+}
+input[type="submit"]:hover{
+    background: #5c9dff;
+}
+
+.search-ul{
+    display: block;
+    width: 524px;
+    margin: 0 40px;
+    text-align: left;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: none;
+}
+.search-ul li{
+    padding: 5px 20px;
+    background-color: #ffffffa8;
+}
+.search-ul li:hover{
+    background: #ccc;
+}
+.search-ul  a{
+    color: #888;
+    text-decoration: none;
+}
