@@ -55,12 +55,12 @@ input.on("focus", function (e) {
 })
 
 $(document).on("click", function (e) {
-    
+
     if(e.target.type !== "text"){
     // 搜索框失去焦点 列表隐藏
     oUl.hide(); // 隐藏动态列表
-    
-    // oUl是列表 
+
+    // oUl是列表
     // 列表含有超链接，点击列表页面跳转，
     // 但在点击列表的瞬间，input失去焦点，列表隐藏
     // 解决思路：绑定body点击事件 body被点击则隐藏列表
@@ -94,7 +94,7 @@ $(".search").on('click', function () {
     var temp;
     // 请求数据
      $.ajax({
-        data:{"query":value},
+        data:{"query":bHref},
         url: "http://127.0.0.1:5000/index",
         type: "POST",
         async: false,
@@ -108,5 +108,5 @@ $(".search").on('click', function () {
         }
         })
 
-    $(this).attr("href",temp["url"]);
+    //$(this).attr("href",temp["url"]);
 })

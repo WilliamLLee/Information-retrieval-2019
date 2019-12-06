@@ -37,6 +37,7 @@ def base_query():
     print(dict(request.form)["query"][0])
     print(dict(request.form))
     query_sentence = dict(request.form)["query"][0]
+    print(query_sentence)
     res = []
     with ix.searcher() as searcher:
         query = qparser.QueryParser("content", ix.schema)
