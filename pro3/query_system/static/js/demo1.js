@@ -88,13 +88,14 @@ function doJson(res) {
 }
 
 $(".search").on('click', function () {
-
+$(this).attr("href","/display/20&字");
+return；
     // 思路：把输入的关键词绑定到超链接地址，利用超链接实现页面跳转
     var bHref = value;
     var temp;
     // 请求数据
      $.ajax({
-        data:{"query":bHref},
+        data:{"query":value},
         url: "http://127.0.0.1:5000/index",
         type: "POST",
         async: false,
@@ -108,5 +109,5 @@ $(".search").on('click', function () {
         }
         })
 
-    //$(this).attr("href",temp["url"]);
+    $(this).attr("href",temp["url"]);
 })
