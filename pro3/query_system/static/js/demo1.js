@@ -3,7 +3,7 @@ var flag = true;
 $(".login-btn").on("click", function () {
 
     if (flag) {
-        var str = '<div class="login">\
+        var str = '<div class="login">\\
                         <div class="login-form">\
                             <i class=" close">\
                                 <span class="iconfont icon-close"></span>\
@@ -40,7 +40,6 @@ var value = null;
 
 input.on("input", function () {
     value = this.value;
-    console.log(value);
     var oScript = "<script src='https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=" + value + "&cb=doJson'>"
     $(document.body).append(oScript);
     $("script[src^='http']").remove()
@@ -87,27 +86,11 @@ function doJson(res) {
     }
 }
 
-$(".search").on('click', function () {
-$(this).attr("href","/display/20&字");
-return；
-    // 思路：把输入的关键词绑定到超链接地址，利用超链接实现页面跳转
-    var bHref = value;
-    var temp;
-    // 请求数据
-     $.ajax({
-        data:{"query":value},
-        url: "http://127.0.0.1:5000/index",
-        type: "POST",
-        async: false,
-        dataType: "JSON",
-        success: function (rep) {
-            temp = rep;
-            console.log(rep);
-        },error:function(error){
-            console.log('error');
-            console.log(error);
-        }
-        })
 
-    $(this).attr("href",temp["url"]);
+$(".search").on('click', function () {
+
+    // 思路：把输入的关键词绑定到超链接地址，利用超链接实现页面跳转
+    var bHref ="/display/"+value;
+    console.log(bHref);
+    $(this).attr("href",bHref);
 })
