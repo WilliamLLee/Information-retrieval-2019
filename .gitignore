@@ -1,16 +1,7 @@
-#忽略enron数据文件压缩包
+*.zip
 *.tar.gz
 *.rar
-#忽略enron邮件数据解压包
-pro1/enron_mail_20150507
-#暂时忽略pro1的设计文档
-#enron公司电子邮件检索系统.md
-*.md
-#忽略Pycharm自动生成的Python引导文件
-.idea
-__pycache__
-#文本处理中间文件夹
-enron_mail_dir
+
 *.txt
 
 
@@ -20,7 +11,6 @@ enron_mail_dir
 __pycache__/
 *.py[cod]
 *$py.class
-*.pdf
 # C extensions
 *.so
 *.json
