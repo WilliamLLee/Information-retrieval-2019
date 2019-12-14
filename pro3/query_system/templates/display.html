@@ -1559,8 +1559,13 @@ button.fb-btn::-moz-focus-inner{padding:0;border:0}
 
 
 
+
+
+
+
+
+
     </style>
-    <script src="{{url_for('static', filename='js/display.js')}}"></script>
     <script src="{{url_for('static', filename='js/jquery-3.3.1.js')}}"></script>
 </head>
 <body link="#0000cc">
@@ -1568,6 +1573,12 @@ button.fb-btn::-moz-focus-inner{padding:0;border:0}
     <div class="s_form_wrapper soutu-env-nomac soutu-env-result">
         <style>
             .index-logo-srcnew {display: none;}@media (-webkit-min-device-pixel-ratio: 2),(min--moz-device-pixel-ratio: 2),(-o-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2){.index-logo-src {display: none;}.index-logo-srcnew {display: inline;}}
+
+
+
+
+
+
 
 
 
@@ -1587,17 +1598,79 @@ button.fb-btn::-moz-focus-inner{padding:0;border:0}
                                                                                                           type="text"
                                                                                                           name="wd"
                                                                                                           class="s_ipt"
-                                                                                                          value={{query}}
+                                                                                                          value='{{query}}'
                                                                                                           maxlength="255"
                                                                                                           autocomplete="off"><span
                 class="soutu-btn"></span><a
                 href="javascript:;" id="quickdelete" title="清空" class="quickdelete"
                 style="top: 0px; right: 0px; display: block;"></a></span><a class="search"
-                                                                            href="#"><span class="bg s_btn_wr"><input
-                type="submit"
-                id="su"
+                                                                            href="#"><input
+                class="test"
                 value="百度一下"
-                class="bg s_btn"></span></a>
+        ></a>
+            <style>
+    input.test{
+        list-style: none;
+padding-top: 0;
+box-sizing: border-box;
+font-size: 14px;
+padding: 16px;
+border: 0;
+cursor: pointer;
+width: 100px;
+height: 34px;
+color: #fff;
+letter-spacing: 1px;
+background: #3385ff;
+border-bottom: 1px solid #2d78f4;
+outline: medium;
+-webkit-appearance: none;
+-webkit-border-radius: 0;
+background-image: none;
+    }
+
+            </style>
+            <script type="text/javascript">
+            var input = $("input[type='text']");
+            var value = null;
+            input.on("input", function () {
+    value = this.value;
+    console.log(value);
+<!--    var oScript = "<script src='https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=" + value + "&cb=doJson'>"-->
+<!--    $(document.body).append(oScript);-->
+<!--    $("script[src^='http']").remove()-->
+
+});
+               $(".search").on("click",function(){
+                       // 思路：把输入的关键词绑定到超链接地址，利用超链接实现页面跳转
+    var bHref = $("input[id='kw']").value;
+    var temp;
+    var ttt = $(this);
+    // 请求数据
+     $.ajax({
+        data:{"query":value},
+        url: "http://127.0.0.1:5000/index",
+        type: "POST",
+        async: false,
+        dataType: "JSON",
+        success: function (rep) {
+            temp = rep;
+            console.log(rep);
+        },error:function(error){
+            console.log('error');
+            console.log(error);
+            alert(error.responseText)
+            ttt.attr("href", "/display/");
+            return;
+        }
+        })
+    console.log(temp['url']);
+    $(this).attr("href", temp.url);
+                })
+
+
+
+            </script>
         </form>
         <div id="m"></div>
     </div>
@@ -1608,53 +1681,14 @@ button.fb-btn::-moz-focus-inner{padding:0;border:0}
 
 <div id="content_left">
 
-    <div class="result-op c-container" srcid="37955" fk="百度" id="1" tpl="url" mu="http://www.baidu.com"
-         data-op="{'y':'DF377B9D'}"
-         data-click="{&quot;p1&quot;:&quot;1&quot;,&quot;rsv_bdr&quot;:&quot;0&quot;,&quot;fm&quot;:&quot;alop&quot;,&quot;rsv_stl&quot;:&quot;0&quot;,&quot;p5&quot;:1}">
-        <h3 class="t">
-            <a href="http://www.baidu.com/link?url=4Yvfb1eX4Z3k8ydUtkRXBxr99oIs5ShZI9L_WZMgXYS" target="_blank">
-                <em>百度</em>一下,你就知道
-            </a>
-            <a target="_blank" href="http://trust.baidu.com/vstar/official/intro"
-               class="OP_LOG_LINK c-text c-text-public c-text-mult c-gap-left-small">官方</a></h3>
 
-        <div class="c-row c-gap-top-small">
-            <div class="general_image_pic c-span6">
-                <a href="http://www.baidu.com/link?url=4Yvfb1eX4Z3k8ydUtkRXBxr99oIs5ShZI9L_WZMgXYS" class="c-img6"
-                   style="height:75px" target="_blank">
-                    <img class="c-img c-img6"
-                         src="https://dss0.bdstatic.com/6KYTfyqn1Ah3otqbppnN2DJv/zheguilogo/f00c443d8af1cac0afb595bef0db8b75_originalsize.jpeg"
-                         style="height:75px;">
-                </a>
-            </div>
-            <div class="c-span18 c-span-last">
-                <div class="c-abstract">
-                    全球最大的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。<em>百度</em>超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。
-                </div>
-                <div class="f13">
-            <span class="c-showurl">
-    	        www.baidu.com
-            </span>
-                    <span class="c-tools" id="tools_14410980324494996806_1"
-                          data-tools="{title:'百度一下,你就知道',url:'http://www.baidu.com'}"><a class="c-tip-icon"><i
-                            class="c-icon c-icon-triangle-down-g"></i></a></span>
-                    <span class="c-icons-outer">
-                <span class="c-icons-inner">
-                    <span class="c-trust" data_key="18107030381288614"><span class="c-vline"></span><a
-                            class="vstar&nbsp;c-icon&nbsp;c-icon-v3" target="_blank" onclick=""
-                            href="https://www.baidu.com/s?wd=%E5%8C%97%E4%BA%AC%E7%99%BE%E5%BA%A6%E7%BD%91%E8%AE%AF%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%40v&amp;vmp_ec=0d41afc567be44ea41452c980kX259dli2dX34b079Sb7a5j%3Dc0d4eWYbes3dyde0J2c6751e687cef1&amp;vmp_ectm=1575634398&amp;from=vtag"
-                            hint-data="{&quot;hint&quot;:&nbsp;[{&quot;vlevel&quot;:&nbsp;3}]}"></a></span><span
-                        class="c-trust" data_key="18107030381288614" hint-type="baozhang-v"></span>
-                </span>
-            </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="result c-container " id="5" srcid="1599" tpl="se_com_default"
-         data-click="{&quot;rsv_bdr&quot;:&quot;0&quot;,&quot;rsv_cd&quot;:&quot;vLevel:3&quot;,&quot;p5&quot;:5}"><h3
-            class="t"><a data-click="{
+    <ul id="navigation">
+        {% for item in res %}
+        {%if item["picpath"] == '#' %}
+        <div class="result c-container " id="5" srcid="1599" tpl="se_com_default"
+             data-click="{&quot;rsv_bdr&quot;:&quot;0&quot;,&quot;rsv_cd&quot;:&quot;vLevel:3&quot;,&quot;p5&quot;:5}">
+            <h3
+                    class="t"><a data-click="{
 			'F':'778317EA',
 			'F1':'9D73F1E4',
 			'F2':'4CA6DC6B',
@@ -1662,32 +1696,72 @@ button.fb-btn::-moz-focus-inner{padding:0;border:0}
 			'T':'1575634398',
 						'y':'FFDEEDCE'
 												}"
-                         href="http://www.baidu.com/link?url=Vj6y1oF3GPEkOnzi95CMYT2Jbf-RTSCo1v3a-u9rt7e"
-                         target="_blank"><em>百度</em>网址大全</a></h3>
-        <div class="c-abstract"><em>百度</em>网址大全 -- 简单可依赖的上网导航... 视频更多&gt;&gt;爱奇艺高清优酷网<em>百度</em>视频腾讯视频芒果TV搜狐视频 影视更多&gt;&gt;电视剧电影
-            • 购票动漫综艺电视直播院线大片 游...
-        </div>
+                                 href={{item['url']}}
+                                 target="_blank"> <em>{{ item['title']|safe}}</em> {{item['xueyuan']|safe}}</a> <a target="_blank" href={{item['parenturl']}}
+                   class="OP_LOG_LINK c-text c-text-public c-text-mult c-gap-left-small">官网</a></h3>
+            <div class="c-abstract">{{item['content']|safe}}
+            </div>
 
-        <div class="f13"><a target="_blank"
-                            href="http://www.baidu.com/link?url=Vj6y1oF3GPEkOnzi95CMYT2Jbf-RTSCo1v3a-u9rt7e"
-                            class="c-showurl" style="text-decoration:none;">site.baidu.com/&nbsp;</a>
-            <div class="c-tools" id="tools_15945552882422530186_5"
-                 data-tools="{&quot;title&quot;:&quot;百度网址大全&quot;,&quot;url&quot;:&quot;http://www.baidu.com/link?url=Vj6y1oF3GPEkOnzi95CMYT2Jbf-RTSCo1v3a-u9rt7e&quot;}">
-                <a class="c-tip-icon"><i class="c-icon c-icon-triangle-down-g"></i></a></div>
-            <span class="c-icons-outer"><span class="c-icons-inner"><span class="c-vline"></span><span
-                    class="c-trust-as vstar " data_key="11390790254311133732"
-                    hint-data="{&quot;label&quot;:&quot;北京百度网讯科技有限公司&quot;,&quot;url&quot;:&quot;https://www.baidu.com/s?wd=%E5%8C%97%E4%BA%AC%E7%99%BE%E5%BA%A6%E7%BD%91%E8%AE%AF%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8@v&amp;vmp_ec=1bce5be6d75e222e61c39efce03tUX29dpuJN3s75b4a2Hu17FmYYZ50c8U47GpdX637f44fea571bfd&amp;vmp_ectm=1574640677&amp;from=vs&quot;,&quot;hint&quot;:[{&quot;txt&quot;:&quot;[ecard 127]&quot;,&quot;vlevel&quot;:&quot;3&quot;}]}"
-                    hint-type="vstar" render="render"><a
-                    href="https://www.baidu.com/s?wd=%E5%8C%97%E4%BA%AC%E7%99%BE%E5%BA%A6%E7%BD%91%E8%AE%AF%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8@v&amp;vmp_ec=1bce5be6d75e222e61c39efce03tUX29dpuJN3s75b4a2Hu17FmYYZ50c8U47GpdX637f44fea571bfd&amp;vmp_ectm=1574640677&amp;from=vs&amp;product=v&amp;rsv_dl=0_left_v_3"
-                    class="c-icon c-icon-v c-icon-v3" target="_blank"
-                    data-click="{'title':'vstar','rsv_vlevel':'3'}"></a></span></span></span>&nbsp;-&nbsp;<a
-                    data-click="{'rsv_snapshot':'1'}"
-                    href="http://cache.baiducontent.com/c?m=9d78d513d9d431ad4f9b9f697d12c0171340c72362d88a5339968449e07946001c20b4ac2755405788933b7001d81801b5ed&amp;p=882a9545d0971fed03a7c7710f4e8f&amp;newp=8149de15d9c341a918a7db2d021490231610db2151d6d5176b82c825d7331b001c3bbfb423271400d0c47b6407ac485ce9f63478310923a3dda5c91d9fb4c57479c86d7b&amp;user=baidu&amp;fm=sc&amp;query=%B0%D9%B6%C8&amp;qid=f47d814a00176d42&amp;p1=5"
-                    target="_blank" class="m">百度快照</a><span class="c-pingjia">&nbsp;-&nbsp;<a
-                    href="https://www.baidu.com/tools?url=http%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DVj6y1oF3GPEkOnzi95CMYT2Jbf-RTSCo1v3a-u9rt7e&amp;jump=https%3A%2F%2Fkoubei.baidu.com%2Fp%2Fsentry%3Ftitle%3D%02%E7%99%BE%E5%BA%A6%03%E7%BD%91%E5%9D%80%01%E5%A4%A7%E5%85%A8%01%26q%3D%E7%99%BE%E5%BA%A6%26from%3Dps_pc4&amp;key=surl"
-                    target="_blank" class="m" data-click="{'rsv_comments':'1'}" data-from="ps_pc4">130条评价</a></span>
+            <div class="f13"><a target="_blank"
+                                href={{item['parenturl']}}
+                                class="c-showurl" style="text-decoration:none;">{{item['url']}}&nbsp;</a>
+                <a data-click="{'rsv_snapshot':'1'}"
+                        href={{item['shotpath']}}
+                        target="_blank" class="m">百度快照</a>
+            </div>
         </div>
-    </div>
+        {%else%}
+        <div class="result-op c-container" srcid="37955" fk="百度" id="1" tpl="url" mu="http://www.baidu.com"
+             data-op="{'y':'DF377B9D'}"
+             data-click="{&quot;p1&quot;:&quot;1&quot;,&quot;rsv_bdr&quot;:&quot;0&quot;,&quot;fm&quot;:&quot;alop&quot;,&quot;rsv_stl&quot;:&quot;0&quot;,&quot;p5&quot;:1}">
+            <h3 class="t">
+                <a href={{item['url']}} target="_blank">
+                    <em>{{ item['title']|safe}}</em> {{item['xueyuan']|safe}}
+                </a>
+                <a target="_blank" href={{item['parenturl']}}
+                   class="OP_LOG_LINK c-text c-text-public c-text-mult c-gap-left-small">官网</a></h3>
+
+            <div class="c-row c-gap-top-small">
+                <div class="general_image_pic c-span6">
+                    <a href={{item['url']}} class="c-img6"
+                       style="height:75px" target="_blank">
+                        <img class="c-img c-img6"
+                             src= "{{url_for('static',filename=item['picpath'])}}"
+                             style="height:75px;">
+                    </a>
+                </div>
+                <div class="c-span18 c-span-last">
+                    <div class="c-abstract" id="content">
+                        {{item['content']|safe}}
+                    </div>
+                    <div class="f13">
+            <span class="c-showurl">
+    	        {{item['url']}}
+            </span>
+                        <span class="c-tools" id="tools_14410980324494996806_1"
+                              data-tools="{title:'百度一下,你就知道',url:'http://www.baidu.com'}"><a class="c-tip-icon"><i
+                                class="c-icon c-icon-triangle-down-g"></i></a></span>
+                                        <a data-click="{'rsv_snapshot':'1'}"
+                        href={{item['shotpath']}}
+                        target="_blank" class="m">百度快照</a>
+<!--                        <span class="c-icons-outer">-->
+<!--                <span class="c-icons-inner">-->
+<!--                    <span class="c-trust" data_key="18107030381288614"><span class="c-vline"></span><a-->
+<!--                            class="vstar&nbsp;c-icon&nbsp;c-icon-v3" target="_blank" onclick=""-->
+<!--                            href="https://www.baidu.com/s?wd=%E5%8C%97%E4%BA%AC%E7%99%BE%E5%BA%A6%E7%BD%91%E8%AE%AF%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%40v&amp;vmp_ec=0d41afc567be44ea41452c980kX259dli2dX34b079Sb7a5j%3Dc0d4eWYbes3dyde0J2c6751e687cef1&amp;vmp_ectm=1575634398&amp;from=vtag"-->
+<!--                            hint-data="{&quot;hint&quot;:&nbsp;[{&quot;vlevel&quot;:&nbsp;3}]}"></a></span><span-->
+<!--                        class="c-trust" data_key="18107030381288614" hint-type="baozhang-v"></span>-->
+<!--                </span>-->
+<!--            </span>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endif%}
+        {% endfor %}
+    </ul>
+
+
 </div>
 
 <div id="content_right" class="cr-offset">
@@ -1700,261 +1774,41 @@ button.fb-btn::-moz-focus-inner{padding:0;border:0}
                     <div class="cr-title c-clearfix">
                         <a class="cr-title-sub opr-recommends-merge-more-btn" href="javascript:;"
                            onclick="return false;"
-                           data-click="{'fm':'beha'}"><span>展开</span><i
+                           data-click="{'fm':'beha'}"><i
                                 class="c-icon c-icon-chevron-bottom c-gap-left-small"></i></a>
-                        <span title="百度高管">百度高管</span>
+                        <span title="百度高管">相关教师</span>
                     </div>
-                    <div class="opr-recommends-merge-panel opr-recommends-merge-mbGap">
-
+                     <div class="opr-recommends-merge-panel opr-recommends-merge-mbGap">
+            {% for it in range(0,res.__len__(),5) %}
                         <div class="c-row c-gap-top">
-
+                            {% for j in range(0,5)%}
+                           {% if it+j<res.__len__() and res[it+j]['picpath']!='#'%}
                             <div class="c-span4  opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'李彦宏','rsv_re_uri':'b1f02a70c8e5407bbee068f493457e51'}">
+                                 data-click="{'rsv_re_ename':{{res[it+j]['title']}},'rsv_re_uri':'b1f02a70c8e5407bbee068f493457e51'}">
                                 <div class="opr-recommends-merge-p">
                                     <a target="_blank"
-                                       href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51"><img
-                                            data-src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3210116116,2698637809&amp;fm=58"
-                                            data-b64-id="3210116116_2698637809_58"
+                                       href={{res[it+j]['url']}}><img
+                                            data-b64-id="3210116116_2698637809_61"
                                             class="c-img c-img4 opr-recommends-merge-img"
-                                            src="data:image/jpeg;base64,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"></a>
+                                            src="{{url_for('static',filename=res[it+j]['picpath'])}}"></a>
                                     <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51"></a>
+                                       href={{res[it+j]['url']}}></a>
                                 </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="李彦宏"
-                                                                href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51">李彦宏</a>
+                                <div class="c-gap-top-small"><a target="_blank" title={{res[it+j]['title']}}
+                                                                href={{res[it+j]['url']}}>{{res[it+j]['title']}}</a>
                                 </div>
                                 <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度创始人董事长CEO</p>
+                                    <p class="opr-recommends-merge-width-text">{{res[it+j]['xueyuan']}}</p>
                                 </div>
                             </div>
 
-                            <div class="c-span4  opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'余正钧','rsv_re_uri':'4efc8ef50e8f4beeaa8f323a84d714b7'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7"><img
-                                            data-src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1714090150,150917246&amp;fm=58"
-                                            data-b64-id="1714090150_150917246_58"
-                                            class="c-img c-img4 opr-recommends-merge-img"
-                                            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABLAEsDASIAAhEBAxEB/8QAHQAAAQQDAQEAAAAAAAAAAAAABwIDBggAAQUECf/EADQQAAEDAwIEAwcDBAMAAAAAAAECAwQABREGIQcSMUETUWEIFCIycYGRFaGxJEJSkjNz0f/EABoBAAIDAQEAAAAAAAAAAAAAAAIFAQQGAAP/xAAhEQACAgICAwEBAQAAAAAAAAAAAQIRAwQSMRMhQSIFkf/aAAwDAQACEQMRAD8AJoFLSK0BWOuNMMreecQ002krWtZwlKQMkk9gBRgiwK4OodZaT08km9ait0JX+C3wVn6JGT+1Vh408Zbpqm4u2rT8h+BZmlqSktKKXJPYqUQflPYfehgq33FweO4w9hW/MUnehc0uwlFvovDaeJGgbm6GoWr7Qtw9ELfDZP8AvipW0tt5pLrK0ONrGUrQoKSoehGxr59WzTV5ur/gW63S5LmMlKGSdvOiXo2Xr/hE+xdpUGQqyvFImRVL5kFGdzjPwL8j9jsaDzQTpsNYZtWk6LdkVmK8liukC+WaLd7XIEiFLbDjLgGMg+Y7EdCPOvZivc8mJxWsUvFaxXEDaRUM47zHIPCDUr7SilZh+FkDstaUH9lGpqBUL48Mrf4PanQhPMoQubHolaSf2BoSbKd6RjRVykFxPOogkA9BVkeH0O3Jjse8sMkkDdSQf5qt+mR4fM8jJUnoBRk0rcI8m3sMSdYMWSSohIUtCSAew370l34ucqTHf86ShG2WJtcC2Np520NBJT1CQM1xtXWSBPivxltodYdQQtChkEEbiuZpbUE9ssWKXJiXFwsqfaktNAB4IOFJPTB3H4riv6kgTL7Nh3K7XuRLSyHCw2wQwynIGRyp2xt3pdxtcV2hrde39GPZtU/a0am0U8vnas04ORSRv4TuTj8p/ei4RQ64fWtdv4mXV88xRNszCys/3lDygCfXlUKJJSN60utk8mKMmZXax+PLKKG8VmKVisxVgrDIFDj2kLc7P4XSXWirEKUzJcSD8yASlQP++ftRIFMXa3RbtapVrnN+JFlNKZdT5pIx+e/2oJK00HGXGSZR3SZTb7khxbQLZcCgkntVgOHmmbDcZqJbcVorKgtQUhKgVZyDuDuKDeu9K3HR+ov0m5pRzlIdbcbVlLqCSAoH7HI7GifwnlzYCvDCVFYHMkDc4AzkedItzknfTH+g4v18JJfZrUXizCgsqQ2iMFIdwQAkuDPxH/IneifY49vf8cqQyX0khwpV82O+xwarrGc0ffdSruc+JcUr95L68h0YX2UR6UXNP3GE1L9zs0JxtLi1OuFLPKlCldVKPrjH1qpKDh+v9Gkf1Hr18ZLbQyj9XlvAbpbS2D5DOcfxXWIrwWJkNtvuFRUpxzr9AK6Bp7oRcdeNmY35KWxKhvFZil4rX2q6UqGAK8t+usGxWSZebm74MKG0p15eOgA6DzJ6AdyRUY4kcSdM6EjEXOT7xcCnLVvjkF5fkVdkJ9VfYGqmcRteX/XV3XMuslTcYH+nhNLPgsJ7YHdXmo7n06ULZ1WM6r1pJ1Lq263O5Bbca4SS6yFfEqIOiAPMBIAIH1G9TTSmqjAbjx7itTEhhPK26k5S42RjIPfY7GhWAFo3APnU54WJZvMtOlJrQfLuTCz8wV1KAf3H3qtn1451T7LWvsSwO0GHRNrtr84zTIXzOkEvNuEc2e9ExcRqMptERYecdwBuCpa+2T3oa2PhHxDtEV2bam2XbenJWhaj4rQ/6x8w9R+KKvCSP7rMeZuBTLK4ii64R8uNzy+X87Ck89V+RY5vseR3LwucPh3obPu8VtknmKR8SvM9z+adI3p2S2GnilLiXEEBaFg9UqGQT5GmyK0EUopJGck222+xOK1SqyiBPnVJfkS5LkmU84++6orcccUVKWo9SSdyaxCa0jrTqQKAIQQQdiRmvTAlyrfPj3CDIcjyozqXWXUHCkLSchQ+hFMncUkborjj6J8GtfL1/wAO4WpoyER5y+aNcEMn/ikIHxYHYKBC0+hx2p+/Wtm3W9y6R2Expk1aWXXvEBLnN8OVEHAPKP8A2gL7AEuT+uaut3jK909zjyfC/tDocKQv64OKtJqVhk3GKwWkFpctJUgjIPwmoyR5x9h45cZFNuOWvtXaR9oe4yIqBCTAjxobcVRKmZcVKAUqWB15ipRyN09jscnLhlre16900m725K2XG1+FKjLIKmHMZwT3BG4PceoNCT2/YsdriNpyS20lLz9mUHVgbrCHlBOfoCa5fsYPOi/6mjc58FUNhwo7cwcUAfrgkUf082WWNapRpNSQf//Z"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="余正钧"
-                                                                href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7">余正钧</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度集团首席财务官</p>
-                                </div>
-                            </div>
+                            {%endif%}
 
-
-                            <div class="c-span4  c-span-last-s opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'王海峰','rsv_re_uri':'da6d743a89944881aae163d456efdbeb'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb"><img
-                                            src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1093938109,2401173851&amp;fm=58"
-                                            class="c-img c-img4 opr-recommends-merge-img"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="王海峰"
-                                                                href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb">王海峰</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度集团首席技术官</p>
-                                </div>
-                            </div>
-
-
-                            <div class="c-span4  c-span-last opr-recommends-merge-lastspan opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'沈抖','rsv_re_uri':'f04183ab1d4e4f56b327544062de344a'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a"><img
-                                            src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2829301120,1462414058&amp;fm=58"
-                                            class="c-img c-img4 opr-recommends-merge-img"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="沈抖"
-                                                                href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a">沈抖</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度高级副总裁</p>
-                                </div>
-
-                            </div>
-
+                            {%endfor%}
                         </div>
-
-                        <div class="c-row c-gap-top">
-
-                            <div class="c-span4  opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'李彦宏','rsv_re_uri':'b1f02a70c8e5407bbee068f493457e51'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51"><img
-                                            data-src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3210116116,2698637809&amp;fm=58"
-                                            data-b64-id="3210116116_2698637809_58"
-                                            class="c-img c-img4 opr-recommends-merge-img"
-                                            src="data:image/jpeg;base64,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"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="李彦宏"
-                                                                href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51">李彦宏</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度创始人董事长CEO</p>
-                                </div>
-                            </div>
-
-                            <div class="c-span4  opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'余正钧','rsv_re_uri':'4efc8ef50e8f4beeaa8f323a84d714b7'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7"><img
-                                            data-src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1714090150,150917246&amp;fm=58"
-                                            data-b64-id="1714090150_150917246_58"
-                                            class="c-img c-img4 opr-recommends-merge-img"
-                                            src="data:image/jpeg;base64,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"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="余正钧"
-                                                                href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7">余正钧</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度集团首席财务官</p>
-                                </div>
-                            </div>
-
-
-                            <div class="c-span4  c-span-last-s opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'王海峰','rsv_re_uri':'da6d743a89944881aae163d456efdbeb'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb"><img
-                                            src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1093938109,2401173851&amp;fm=58"
-                                            class="c-img c-img4 opr-recommends-merge-img"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="王海峰"
-                                                                href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb">王海峰</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度集团首席技术官</p>
-                                </div>
-                            </div>
-
-
-                            <div class="c-span4  c-span-last opr-recommends-merge-lastspan opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'沈抖','rsv_re_uri':'f04183ab1d4e4f56b327544062de344a'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a"><img
-                                            src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2829301120,1462414058&amp;fm=58"
-                                            class="c-img c-img4 opr-recommends-merge-img"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="沈抖"
-                                                                href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a">沈抖</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度高级副总裁</p>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="c-row c-gap-top">
-
-                            <div class="c-span4  opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'李彦宏','rsv_re_uri':'b1f02a70c8e5407bbee068f493457e51'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51"><img
-                                            data-src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3210116116,2698637809&amp;fm=58"
-                                            data-b64-id="3210116116_2698637809_58"
-                                            class="c-img c-img4 opr-recommends-merge-img"
-                                            src="data:image/jpeg;base64,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"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="李彦宏"
-                                                                href="/s?wd=%E6%9D%8E%E5%BD%A6%E5%AE%8F&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=b1f02a70c8e5407bbee068f493457e51">李彦宏</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度创始人董事长CEO</p>
-                                </div>
-                            </div>
-
-                            <div class="c-span4  opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'余正钧','rsv_re_uri':'4efc8ef50e8f4beeaa8f323a84d714b7'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7"><img
-                                            data-src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1714090150,150917246&amp;fm=58"
-                                            data-b64-id="1714090150_150917246_58"
-                                            class="c-img c-img4 opr-recommends-merge-img"
-                                            src="data:image/jpeg;base64,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"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="余正钧"
-                                                                href="/s?wd=%E4%BD%99%E6%AD%A3%E9%92%A7&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=4efc8ef50e8f4beeaa8f323a84d714b7">余正钧</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度集团首席财务官</p>
-                                </div>
-                            </div>
-
-
-                            <div class="c-span4  c-span-last-s opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'王海峰','rsv_re_uri':'da6d743a89944881aae163d456efdbeb'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb"><img
-                                            src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1093938109,2401173851&amp;fm=58"
-                                            class="c-img c-img4 opr-recommends-merge-img"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="王海峰"
-                                                                href="/s?wd=%E7%8E%8B%E6%B5%B7%E5%B3%B0&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=da6d743a89944881aae163d456efdbeb">王海峰</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度集团首席技术官</p>
-                                </div>
-                            </div>
-
-
-                            <div class="c-span4  c-span-last opr-recommends-merge-lastspan opr-recommends-merge-item "
-                                 data-click="{'rsv_re_ename':'沈抖','rsv_re_uri':'f04183ab1d4e4f56b327544062de344a'}">
-                                <div class="opr-recommends-merge-p">
-                                    <a target="_blank"
-                                       href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a"><img
-                                            src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2829301120,1462414058&amp;fm=58"
-                                            class="c-img c-img4 opr-recommends-merge-img"></a>
-                                    <a class="opr-recommends-merge-mask" target="_blank"
-                                       href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a"></a>
-                                </div>
-                                <div class="c-gap-top-small"><a target="_blank" title="沈抖"
-                                                                href="/s?wd=%E6%B2%88%E6%8A%96&amp;rsv_idx=2&amp;tn=baiduhome_pg&amp;usm=6&amp;ie=utf-8&amp;rsv_cq=%E7%99%BE%E5%BA%A6&amp;rsv_dl=0_right_recommends_merge_20826&amp;cq=%E7%99%BE%E5%BA%A6&amp;srcid=20910&amp;rt=%E7%99%BE%E5%BA%A6%E9%AB%98%E7%AE%A1&amp;recid=20826&amp;euri=f04183ab1d4e4f56b327544062de344a">沈抖</a>
-                                </div>
-                                <div class="opr-recommends-merge-d">
-                                    <p class="opr-recommends-merge-width-text">百度高级副总裁</p>
-                                </div>
-
-                            </div>
-
-                        </div>
+                          {%endfor%}
                     </div>
+
             </td>
         </tr>
         </tbody>

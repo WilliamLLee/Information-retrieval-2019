@@ -3,7 +3,7 @@ var flag = true;
 $(".login-btn").on("click", function () {
 
     if (flag) {
-        var str = '<div class="login">\\
+        var str = '<div class="login">\
                         <div class="login-form">\
                             <i class=" close">\
                                 <span class="iconfont icon-close"></span>\
@@ -40,6 +40,7 @@ var value = null;
 
 input.on("input", function () {
     value = this.value;
+    console.log(value);
     var oScript = "<script src='https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=" + value + "&cb=doJson'>"
     $(document.body).append(oScript);
     $("script[src^='http']").remove()
@@ -54,12 +55,12 @@ input.on("focus", function (e) {
 })
 
 $(document).on("click", function (e) {
-
+    
     if(e.target.type !== "text"){
     // 搜索框失去焦点 列表隐藏
     oUl.hide(); // 隐藏动态列表
-
-    // oUl是列表
+    
+    // oUl是列表 
     // 列表含有超链接，点击列表页面跳转，
     // 但在点击列表的瞬间，input失去焦点，列表隐藏
     // 解决思路：绑定body点击事件 body被点击则隐藏列表
@@ -86,11 +87,31 @@ function doJson(res) {
     }
 }
 
-
 $(".search").on('click', function () {
 
     // 思路：把输入的关键词绑定到超链接地址，利用超链接实现页面跳转
-    var bHref ="/display/"+value;
-    console.log(bHref);
-    $(this).attr("href",bHref);
+    var bHref = value;
+    var temp;
+    var ttt = $(this);
+    // 请求数据
+     $.ajax({
+        data:{"query":value},
+        url: "http://127.0.0.1:5000/index",
+        type: "POST",
+        async: false,
+        dataType: "JSON",
+        success: function (rep) {
+            temp = rep;
+            console.log(rep);
+        },error:function(error){
+            console.log('error');
+            console.log(error);
+            alert(error.responseText)
+            ttt.attr("href", "/");
+            return;
+        }
+        })
+
+    console.log(temp['url']);
+    $(this).attr("href", temp.url);
 })
